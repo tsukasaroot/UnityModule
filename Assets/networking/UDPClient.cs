@@ -27,13 +27,12 @@ public class UDPClient : MonoBehaviour
     {
         receivedData = new byte[0];
         string[] args = Environment.GetCommandLineArgs();
-        bool connected = false;
 
-        Client = new UdpClient(16384);
+        Client = new UdpClient(port);
 
         try
         {
-            Client.Connect(IPAddress.Parse(ipToListen), 16384);
+            Client.Connect(IPAddress.Parse(ipToListen), port);
         }
         catch (SocketException e)
         {
