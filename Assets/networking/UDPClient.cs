@@ -56,7 +56,7 @@ public class UDPClient : MonoBehaviour
 #endif
         }
 
-        // To refactor and move into movementController (name to change too)
+        // pass should be already received hashed by launcher
 
 #if UNITY_EDITOR
     nickName = "test";
@@ -96,6 +96,7 @@ public class UDPClient : MonoBehaviour
         {
             opcode += "0x12" + '\n';
             byte[] data = Encoding.UTF8.GetBytes(opcode);
+            Debug.Log(opcode);
             Client.Send(data, data.Length);
             return true;
         }

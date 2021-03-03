@@ -45,5 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ipToListen: 51.210.41.122
   port: 16384
-  nickName: 
-  pass: 
+  nickName: test
+  pass: puissant

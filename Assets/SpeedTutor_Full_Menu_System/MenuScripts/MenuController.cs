@@ -13,6 +13,7 @@ namespace SpeedTutorMainMenuSystem
         private UDPClient client;
         Dictionary<string, Action<string[]>> opcodesPtr;
         private bool connected = false;
+        private bool sent = false;
 
         #region Default Values
         [Header("Default Menu Values")]
@@ -66,9 +67,6 @@ namespace SpeedTutorMainMenuSystem
             menuNumber = 1;
             client = Instantiate(UDPclient);
             initializeOpcodes();
-            string query = "S_LOGIN:";
-            query += client.nickName + ':' + client.pass;
-            client.SendData(query);
         }
         #endregion
 
@@ -82,6 +80,14 @@ namespace SpeedTutorMainMenuSystem
 
         private void Update()
         {
+            if (!connected && !sent)
+            {
+                string query = "S_LOGIN:";
+                query += client.nickName + ':' + client.pass;
+                client.SendData(query);
+                sent = true;
+            }
+
             string toExecute = this.client.ReceiveData();
             if (toExecute != null)
             {
@@ -117,7 +123,8 @@ namespace SpeedTutorMainMenuSystem
         }
         private void login(string[] chainList)
         {
-
+            connected = true;
+            Debug.Log(chainList[0]);
         }
 
         private void initializeOpcodes()
