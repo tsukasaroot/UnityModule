@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using System;
 
 namespace SpeedTutorMainMenuSystem
 {
     public class MenuController : MonoBehaviour
     {
+        public UDPClient UDPclient;
+        private UDPClient client;
+        Dictionary<string, Action<string[]>> opcodesPtr;
+        private bool connected = false;
+
         #region Default Values
         [Header("Default Menu Values")]
         [SerializeField] private float defaultBrightness;
@@ -59,6 +64,11 @@ namespace SpeedTutorMainMenuSystem
         private void Start()
         {
             menuNumber = 1;
+            client = Instantiate(UDPclient);
+            initializeOpcodes();
+            string query = "S_LOGIN:";
+            query += client.nickName + ':' + client.pass;
+            client.SendData(query);
         }
         #endregion
 
@@ -72,7 +82,19 @@ namespace SpeedTutorMainMenuSystem
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            string toExecute = this.client.ReceiveData();
+            if (toExecute != null)
+            {
+                string[] isValidCommand = toExecute.Split(':');
+
+                if (opcodesPtr.ContainsKey(isValidCommand[0]))
+                {
+                    opcodesPtr[isValidCommand[0]](isValidCommand);
+                }
+                toExecute = null;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape) && connected)
             {
                 if (menuNumber == 2 || menuNumber == 7 || menuNumber == 8)
                 {
@@ -92,6 +114,16 @@ namespace SpeedTutorMainMenuSystem
                     ClickSound();
                 }
             }
+        }
+        private void login(string[] chainList)
+        {
+
+        }
+
+        private void initializeOpcodes()
+        {
+            opcodesPtr = new Dictionary<string, Action<string[]>>();
+            opcodesPtr["C_LOGIN"] = login;
         }
 
         private void ClickSound()

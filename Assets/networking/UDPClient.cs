@@ -21,14 +21,15 @@ public class UDPClient : MonoBehaviour
 
     private byte[] receivedData;
     private string dataString;
-    private string nickName;
+    public string nickName;
+    public string pass;
 
     void Start()
     {
         receivedData = new byte[0];
         string[] args = Environment.GetCommandLineArgs();
 
-        Client = new UdpClient(port);
+        Client = new UdpClient(16384);
 
         try
         {
@@ -54,6 +55,16 @@ public class UDPClient : MonoBehaviour
             Application.Quit();
 #endif
         }
+
+        // To refactor and move into movementController (name to change too)
+
+#if UNITY_EDITOR
+    nickName = "test";
+    pass = "puissant";
+#else
+        nickName = args[1];
+        pass = args[2];
+#endif
     }
 
     public string ReceiveData()
@@ -86,12 +97,13 @@ public class UDPClient : MonoBehaviour
             opcode += "0x12" + '\n';
             byte[] data = Encoding.UTF8.GetBytes(opcode);
             Client.Send(data, data.Length);
+            return true;
         }
         catch (Exception err)
         {
             print(err.ToString());
+            return false;
         }
-        return false;
     }
 
     private string parseIt(string dataString)
