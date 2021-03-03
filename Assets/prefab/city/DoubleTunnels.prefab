@@ -56,6 +56,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -6.68
       objectReference: {fileID: 0}
+    - target: {fileID: 2309394903408568026, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309394903962388416, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2309394903962388419, guid: 3e537640b2e53304c96d58ef3b980f9a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -421,6 +431,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 64875578417754578, guid: 2224b63330275e5478ef024b2913f937,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2224b63330275e5478ef024b2913f937, type: 3}
 --- !u!4 &2096970397213361145 stripped
@@ -496,6 +511,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 64875578417754578, guid: 2224b63330275e5478ef024b2913f937,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2224b63330275e5478ef024b2913f937, type: 3}
 --- !u!4 &2830056941874225777 stripped
@@ -570,6 +590,11 @@ PrefabInstance:
     - target: {fileID: 4533943726500818, guid: 2224b63330275e5478ef024b2913f937, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64875578417754578, guid: 2224b63330275e5478ef024b2913f937,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2224b63330275e5478ef024b2913f937, type: 3}
@@ -665,6 +690,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309394903408568026, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309394903962388416, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2309394903962388419, guid: 3e537640b2e53304c96d58ef3b980f9a,
         type: 3}
@@ -971,6 +1006,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2504872360752639714}
     m_Modifications:
+    - target: {fileID: 2309394903408568026, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309394903962388416, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371960574501347637, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4769878906302805790, guid: 3e537640b2e53304c96d58ef3b980f9a,
         type: 3}
       propertyPath: m_Name
@@ -1046,6 +1096,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2504872360752639714}
     m_Modifications:
+    - target: {fileID: 2309394903408568026, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309394903962388416, guid: 3e537640b2e53304c96d58ef3b980f9a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4769878906302805790, guid: 3e537640b2e53304c96d58ef3b980f9a,
         type: 3}
       propertyPath: m_Name
