@@ -194,6 +194,7 @@ namespace SpeedTutorMainMenuSystem
                     menuNumber = 7;
                 }
             }
+
             if (buttonType == "Exit")
             {
                 Debug.Log("YES QUIT!");
