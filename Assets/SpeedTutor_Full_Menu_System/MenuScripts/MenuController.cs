@@ -100,30 +100,33 @@ namespace SpeedTutorMainMenuSystem
                 toExecute = null;
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape) && connected)
+            if (this.connected)
             {
-                if (menuNumber == 2 || menuNumber == 7 || menuNumber == 8)
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    GoBackToMainMenu();
-                    ClickSound();
-                }
+                    if (menuNumber == 2 || menuNumber == 7 || menuNumber == 8)
+                    {
+                        GoBackToMainMenu();
+                        ClickSound();
+                    }
 
-                else if (menuNumber == 3 || menuNumber == 4 || menuNumber == 5)
-                {
-                    GoBackToOptionsMenu();
-                    ClickSound();
-                }
+                    else if (menuNumber == 3 || menuNumber == 4 || menuNumber == 5)
+                    {
+                        GoBackToOptionsMenu();
+                        ClickSound();
+                    }
 
-                else if (menuNumber == 6) //CONTROLS MENU
-                {
-                    GoBackToGameplayMenu();
-                    ClickSound();
+                    else if (menuNumber == 6) //CONTROLS MENU
+                    {
+                        GoBackToGameplayMenu();
+                        ClickSound();
+                    }
                 }
             }
         }
         private void login(string[] chainList)
         {
-            connected = true;
+            this.connected = true;
         }
 
         private void initializeOpcodes()
@@ -140,59 +143,62 @@ namespace SpeedTutorMainMenuSystem
         #region Menu Mouse Clicks
         public void MouseClick(string buttonType)
         {
-            if (buttonType == "Controls")
+            Debug.Log(this.connected);
+            if (this.connected)
             {
-                gameplayMenu.SetActive(false);
-                controlsMenu.SetActive(true);
-                menuNumber = 6;
-            }
+                if (buttonType == "Controls")
+                {
+                    gameplayMenu.SetActive(false);
+                    controlsMenu.SetActive(true);
+                    menuNumber = 6;
+                }
 
-            if (buttonType == "Graphics")
-            {
-                GeneralSettingsCanvas.SetActive(false);
-                graphicsMenu.SetActive(true);
-                menuNumber = 3;
-            }
+                if (buttonType == "Graphics")
+                {
+                    GeneralSettingsCanvas.SetActive(false);
+                    graphicsMenu.SetActive(true);
+                    menuNumber = 3;
+                }
 
-            if (buttonType == "Sound")
-            {
-                GeneralSettingsCanvas.SetActive(false);
-                soundMenu.SetActive(true);
-                menuNumber = 4;
-            }
+                if (buttonType == "Sound")
+                {
+                    GeneralSettingsCanvas.SetActive(false);
+                    soundMenu.SetActive(true);
+                    menuNumber = 4;
+                }
 
-            if (buttonType == "Gameplay")
-            {
-                GeneralSettingsCanvas.SetActive(false);
-                gameplayMenu.SetActive(true);
-                menuNumber = 5;
-            }
+                if (buttonType == "Gameplay")
+                {
+                    GeneralSettingsCanvas.SetActive(false);
+                    gameplayMenu.SetActive(true);
+                    menuNumber = 5;
+                }
 
+                if (buttonType == "Options")
+                {
+                    menuDefaultCanvas.SetActive(false);
+                    GeneralSettingsCanvas.SetActive(true);
+                    menuNumber = 2;
+                }
+
+                if (buttonType == "LoadGame")
+                {
+                    menuDefaultCanvas.SetActive(false);
+                    loadGameDialog.SetActive(true);
+                    menuNumber = 8;
+                }
+
+                if (buttonType == "NewGame")
+                {
+                    menuDefaultCanvas.SetActive(false);
+                    newGameDialog.SetActive(true);
+                    menuNumber = 7;
+                }
+            }
             if (buttonType == "Exit")
             {
                 Debug.Log("YES QUIT!");
                 Application.Quit();
-            }
-
-            if (buttonType == "Options")
-            {
-                menuDefaultCanvas.SetActive(false);
-                GeneralSettingsCanvas.SetActive(true);
-                menuNumber = 2;
-            }
-
-            if (buttonType == "LoadGame")
-            {
-                menuDefaultCanvas.SetActive(false);
-                loadGameDialog.SetActive(true);
-                menuNumber = 8;
-            }
-
-            if (buttonType == "NewGame")
-            {
-                menuDefaultCanvas.SetActive(false);
-                newGameDialog.SetActive(true);
-                menuNumber = 7;
             }
         }
         #endregion

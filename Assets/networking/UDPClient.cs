@@ -96,7 +96,6 @@ public class UDPClient : MonoBehaviour
         {
             opcode += "0x12" + '\n';
             byte[] data = Encoding.UTF8.GetBytes(opcode);
-            Debug.Log(opcode);
             Client.Send(data, data.Length);
             return true;
         }
