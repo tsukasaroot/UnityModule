@@ -143,7 +143,6 @@ namespace SpeedTutorMainMenuSystem
         #region Menu Mouse Clicks
         public void MouseClick(string buttonType)
         {
-            Debug.Log(this.connected);
             if (this.connected)
             {
                 if (buttonType == "Controls")
