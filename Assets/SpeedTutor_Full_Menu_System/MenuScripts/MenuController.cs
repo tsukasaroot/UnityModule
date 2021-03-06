@@ -124,7 +124,6 @@ namespace SpeedTutorMainMenuSystem
         private void login(string[] chainList)
         {
             connected = true;
-            Debug.Log(chainList[0]);
         }
 
         private void initializeOpcodes()
