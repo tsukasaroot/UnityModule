@@ -202,6 +202,11 @@ PrefabInstance:
       propertyPath: _newGameButtonLevel
       value: lvl1
       objectReference: {fileID: 0}
+    - target: {fileID: 114803030738577818, guid: ed022c6eaaa372f498c83d69665e2adc,
+        type: 3}
+      propertyPath: m_Text
+      value: Play
+      objectReference: {fileID: 0}
     - target: {fileID: 224568192995839698, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
       propertyPath: m_AnchoredPosition.y
