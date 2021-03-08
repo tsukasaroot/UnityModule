@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 namespace SpeedTutorMainMenuSystem
 {
@@ -31,6 +32,7 @@ namespace SpeedTutorMainMenuSystem
 
         #region Menu Dialogs
         [Header("Main Menu Components")]
+        [SerializeField] private GameObject InputField;
         [SerializeField] private GameObject menuDefaultCanvas;
         [SerializeField] private GameObject GeneralSettingsCanvas;
         [SerializeField] private GameObject graphicsMenu;
@@ -122,8 +124,24 @@ namespace SpeedTutorMainMenuSystem
                         ClickSound();
                     }
                 }
+
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    SendInvite();
+                    ClickSound();
+                }
             }
         }
+
+        private void SendInvite()
+        {
+            string guestToInvite = InputField.GetComponent<TMP_InputField>().text;
+            string query = "S_SENDROOM_INVITATION:";
+            query += client.nickName + ':' + guestToInvite;
+            client.SendData(query);
+            Debug.Log(query);
+        }
+
         private void login(string[] chainList)
         {
             this.connected = true;

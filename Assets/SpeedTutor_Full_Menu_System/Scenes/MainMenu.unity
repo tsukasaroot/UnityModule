@@ -200,6 +200,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 114754865640368622, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
+      propertyPath: InputField
+      value: 
+      objectReference: {fileID: 2039623533}
+    - target: {fileID: 114754865640368622, guid: ed022c6eaaa372f498c83d69665e2adc,
+        type: 3}
       propertyPath: brightnessEffect
       value: 
       objectReference: {fileID: 980339799}
@@ -913,7 +918,7 @@ GameObject:
   - component: {fileID: 2039623536}
   - component: {fileID: 2039623535}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
