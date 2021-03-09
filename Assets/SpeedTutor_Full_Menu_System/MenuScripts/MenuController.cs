@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 namespace SpeedTutorMainMenuSystem
 {
@@ -31,6 +32,7 @@ namespace SpeedTutorMainMenuSystem
 
         #region Menu Dialogs
         [Header("Main Menu Components")]
+        [SerializeField] private GameObject InputField;
         [SerializeField] private GameObject menuDefaultCanvas;
         [SerializeField] private GameObject GeneralSettingsCanvas;
         [SerializeField] private GameObject graphicsMenu;
@@ -122,17 +124,50 @@ namespace SpeedTutorMainMenuSystem
                         ClickSound();
                     }
                 }
+
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    SendInvite();
+                    ClickSound();
+                }
             }
         }
+
+        private void SendInvite()
+        {
+            string guestToInvite = InputField.GetComponent<TMP_InputField>().text;
+            string query = "S_SENDROOM_INVITATION:";
+            query += client.nickName + ':' + guestToInvite;
+            client.SendData(query);
+        }
+
         private void login(string[] chainList)
         {
             this.connected = true;
+        }
+
+        private void acceptInvitation(string[] chainList)
+        {
+            string guest = chainList[1];
+            string answer = chainList[2];
+            Debug.Log(guest);
+            Debug.Log(answer);
+        }
+
+        private void receiveInvitation(string[] chainList)
+        {
+            string host = chainList[1];
+            string room = chainList[2];
+            Debug.Log(host);
+            Debug.Log(room);
         }
 
         private void initializeOpcodes()
         {
             opcodesPtr = new Dictionary<string, Action<string[]>>();
             opcodesPtr["C_LOGIN"] = login;
+            opcodesPtr["C_ACCEPT_INVITATION"] = acceptInvitation;
+            opcodesPtr["C_SENDROOM_INVITATION"] = receiveInvitation;
         }
 
         private void ClickSound()
