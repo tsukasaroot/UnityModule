@@ -22,6 +22,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private float defaultVolume;
         [SerializeField] private int defaultSen;
         [SerializeField] private bool defaultInvertY;
+        [SerializeField] public Text Top;
 
         [Header("Levels To Load")]
         public string _newGameButtonLevel;
@@ -45,6 +46,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject noSaveDialog;
         [SerializeField] private GameObject newGameDialog;
         [SerializeField] private GameObject loadGameDialog;
+        [SerializeField] private GameObject receivedInvitation;
         #endregion
 
         #region Slider Linking
@@ -146,10 +148,13 @@ namespace SpeedTutorMainMenuSystem
             this.connected = true;
         }
 
-        private void acceptInvitation(string[] chainList)
+        private void responseInvitation(string[] chainList)
         {
             string guest = chainList[1];
             string answer = chainList[2];
+            Top.text = Top.text + chainList[1];
+            Debug.Log(Top.text);
+            receivedInvitation.SetActive(true);
             Debug.Log(guest);
             Debug.Log(answer);
         }
@@ -158,15 +163,15 @@ namespace SpeedTutorMainMenuSystem
         {
             string host = chainList[1];
             string room = chainList[2];
-            Debug.Log(host);
-            Debug.Log(room);
+            Top.text = chainList[1];
+            receivedInvitation.SetActive(true);
         }
 
         private void initializeOpcodes()
         {
             opcodesPtr = new Dictionary<string, Action<string[]>>();
             opcodesPtr["C_LOGIN"] = login;
-            opcodesPtr["C_ACCEPT_INVITATION"] = acceptInvitation;
+            opcodesPtr["C_ACCEPT_INVITATION"] = responseInvitation;
             opcodesPtr["C_SENDROOM_INVITATION"] = receiveInvitation;
         }
 

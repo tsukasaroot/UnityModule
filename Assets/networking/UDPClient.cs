@@ -60,7 +60,7 @@ public class UDPClient : MonoBehaviour
 
 #if UNITY_EDITOR
     nickName = "islan";
-    pass = "22ecf172ee4fa01a4dec0981e3164912";
+    pass = "puissant";
 #else
         nickName = args[1];
         pass = args[2];
