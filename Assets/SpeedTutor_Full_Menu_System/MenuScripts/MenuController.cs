@@ -17,6 +17,7 @@ namespace SpeedTutorMainMenuSystem
         private bool sent = false;
         private string secondPlayer = null;
         private int room;
+        private bool isHost = false;
 
         #region Default Values
         [Header("Default Menu Values")]
@@ -25,6 +26,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private int defaultSen;
         [SerializeField] private bool defaultInvertY;
         [SerializeField] public Text Top;
+        [SerializeField] public Text NamePlayerResponse;
 
         [Header("Levels To Load")]
         public string _newGameButtonLevel;
@@ -49,6 +51,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject newGameDialog;
         [SerializeField] private GameObject loadGameDialog;
         [SerializeField] private GameObject receivedInvitation;
+        [SerializeField] private GameObject answerToInvitation;
         #endregion
 
         #region Slider Linking
@@ -154,6 +157,18 @@ namespace SpeedTutorMainMenuSystem
         {
             string guest = chainList[1];
             string answer = chainList[2];
+            isHost = true;
+
+            if (answer == "undefined")
+            {
+                Debug.Log("Player not online");
+                return;
+            }
+
+            answer = (answer == "true") ? "Accepted" : "Declined";
+
+            NamePlayerResponse.text = answer + " by " + guest;
+            answerToInvitation.SetActive(true);
         }
 
         private void receiveInvitation(string[] chainList)
@@ -166,6 +181,9 @@ namespace SpeedTutorMainMenuSystem
                 secondPlayer = chainList[1];
                 room = chainList[2];
                 receivedInvitation.SetActive(true);
+            } else if (chainList[1] == "undefined")
+            {
+                Debug.Log("Player not online");
             }
         }
 
@@ -343,6 +361,14 @@ namespace SpeedTutorMainMenuSystem
             }
         }
 
+        public void ClickDismissAnswer(string ButtonType)
+        {
+            if (ButtonType == "Ok")
+            {
+                answerToInvitation.SetActive(false);
+            }
+        }
+
         public void ClickChoiceInvite(string ButtonType)
         {
             if (ButtonType == "Yes")
@@ -357,6 +383,8 @@ namespace SpeedTutorMainMenuSystem
                 receivedInvitation.SetActive(false);
                 string query = "S_JOINROOM:" + client.nickName + ':' + secondPlayer + ":false";
                 client.SendData(query);
+                secondPlayer = null;
+                room = 0;
             }
         }
 
