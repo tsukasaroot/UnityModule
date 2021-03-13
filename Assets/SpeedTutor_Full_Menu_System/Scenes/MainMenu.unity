@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 234807042}
   - component: {fileID: 234807041}
   m_Layer: 0
-  m_Name: NewGameDialog_NoButton
+  m_Name: InviteReceivedDialog_NoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -342,7 +342,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 384942025}
-        m_MethodName: ClickNewGameDialog
+        m_MethodName: ClickChoiceInvite
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -827,7 +827,7 @@ GameObject:
   - component: {fileID: 895471420}
   - component: {fileID: 895471422}
   m_Layer: 0
-  m_Name: NewGameDialog_YesButton
+  m_Name: InviteReceivedDialog_YesButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -877,7 +877,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 384942025}
-        m_MethodName: ClickNewGameDialog
+        m_MethodName: ClickChoiceInvite
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

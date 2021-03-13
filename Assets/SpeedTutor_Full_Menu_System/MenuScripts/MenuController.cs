@@ -15,6 +15,8 @@ namespace SpeedTutorMainMenuSystem
         Dictionary<string, Action<string[]>> opcodesPtr;
         private bool connected = false;
         private bool sent = false;
+        private string secondPlayer = null;
+        private int room;
 
         #region Default Values
         [Header("Default Menu Values")]
@@ -152,19 +154,19 @@ namespace SpeedTutorMainMenuSystem
         {
             string guest = chainList[1];
             string answer = chainList[2];
-            Top.text = Top.text + chainList[1];
-            Debug.Log(Top.text);
-            receivedInvitation.SetActive(true);
-            Debug.Log(guest);
-            Debug.Log(answer);
         }
 
         private void receiveInvitation(string[] chainList)
         {
             string host = chainList[1];
             string room = chainList[2];
-            Top.text = chainList[1];
-            receivedInvitation.SetActive(true);
+            Top.text = chainList[1] + " for room " + chainList[2];
+            if (chainList[1] != "undefined")
+            {
+                secondPlayer = chainList[1];
+                room = chainList[2];
+                receivedInvitation.SetActive(true);
+            }
         }
 
         private void initializeOpcodes()
@@ -338,6 +340,23 @@ namespace SpeedTutorMainMenuSystem
             if (ButtonType == "No")
             {
                 GoBackToMainMenu();
+            }
+        }
+
+        public void ClickChoiceInvite(string ButtonType)
+        {
+            if (ButtonType == "Yes")
+            {
+                string query = "S_JOINROOM:" + secondPlayer+ ':' + client.nickName + ":true";
+                client.SendData(query);
+                receivedInvitation.SetActive(false);
+            }
+
+            if (ButtonType == "No")
+            {
+                receivedInvitation.SetActive(false);
+                string query = "S_JOINROOM:" + client.nickName + ':' + secondPlayer + ":false";
+                client.SendData(query);
             }
         }
 
