@@ -145,6 +145,7 @@ namespace SpeedTutorMainMenuSystem
             string guestToInvite = InputField.GetComponent<TMP_InputField>().text;
             string query = "S_SENDROOM_INVITATION:";
             query += client.nickName + ':' + guestToInvite;
+            Debug.Log(guestToInvite);
             client.SendData(query);
         }
 
@@ -373,7 +374,8 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                string query = "S_JOINROOM:" + secondPlayer+ ':' + client.nickName + ":true";
+                string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":true";
+                Debug.Log(secondPlayer);
                 client.SendData(query);
                 receivedInvitation.SetActive(false);
             }
