@@ -197,6 +197,11 @@ namespace SpeedTutorMainMenuSystem
             Debug.Log(room);
         }
 
+        private void loadLevel(string[] chainList)
+        {
+            Debug.Log(chainList[1]);
+        }
+
         private void initializeOpcodes()
         {
             opcodesPtr = new Dictionary<string, Action<string[]>>();
@@ -204,6 +209,7 @@ namespace SpeedTutorMainMenuSystem
             opcodesPtr["C_ACCEPT_INVITATION"] = responseInvitation;
             opcodesPtr["C_SENDROOM_INVITATION"] = receiveInvitation;
             opcodesPtr["C_DEFINE_ROOM_HOST"] = defineRoom;
+            opcodesPtr["C_HOST_START_GAME"] = loadLevel;
         }
 
         private void ClickSound()
@@ -363,7 +369,10 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                SceneManager.LoadScene(_newGameButtonLevel);
+                string query = "S_START_GAME:" + client.nickName + ":1";
+                client.SendData(query);
+                // Will send scene number to other player here too
+                // SceneManager.LoadScene(_newGameButtonLevel);
             }
 
             if (ButtonType == "No")
