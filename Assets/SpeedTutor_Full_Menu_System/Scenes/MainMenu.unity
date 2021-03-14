@@ -829,6 +829,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Play
       objectReference: {fileID: 0}
+    - target: {fileID: 114803030738577818, guid: ed022c6eaaa372f498c83d69665e2adc,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 223184025847054160, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
