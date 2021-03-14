@@ -142,10 +142,11 @@ namespace SpeedTutorMainMenuSystem
 
         private void SendInvite()
         {
+            if (room > 0)
+                Debug.Log("already in party");
             string guestToInvite = InputField.GetComponent<TMP_InputField>().text;
             string query = "S_SENDROOM_INVITATION:";
             query += client.nickName + ':' + guestToInvite;
-            Debug.Log(guestToInvite);
             client.SendData(query);
         }
 
@@ -177,15 +178,23 @@ namespace SpeedTutorMainMenuSystem
             string host = chainList[1];
             string room = chainList[2];
             Top.text = chainList[1] + " for room " + chainList[2];
+
             if (chainList[1] != "undefined")
             {
                 secondPlayer = chainList[1];
                 room = chainList[2];
                 receivedInvitation.SetActive(true);
-            } else if (chainList[1] == "undefined")
+            } 
+            else
             {
                 Debug.Log("Player not online");
             }
+        }
+
+        private void defineRoom(string[] chainList)
+        {
+            room = Int32.Parse(chainList[1]);
+            Debug.Log(room);
         }
 
         private void initializeOpcodes()
@@ -194,6 +203,7 @@ namespace SpeedTutorMainMenuSystem
             opcodesPtr["C_LOGIN"] = login;
             opcodesPtr["C_ACCEPT_INVITATION"] = responseInvitation;
             opcodesPtr["C_SENDROOM_INVITATION"] = receiveInvitation;
+            opcodesPtr["C_DEFINE_ROOM_HOST"] = defineRoom;
         }
 
         private void ClickSound()
@@ -375,9 +385,9 @@ namespace SpeedTutorMainMenuSystem
             if (ButtonType == "Yes")
             {
                 string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":true";
-                Debug.Log(secondPlayer);
                 client.SendData(query);
                 receivedInvitation.SetActive(false);
+                // Hide PLAY button because not host of the room
             }
 
             if (ButtonType == "No")
