@@ -381,7 +381,7 @@ namespace SpeedTutorMainMenuSystem
             if (ButtonType == "No")
             {
                 receivedInvitation.SetActive(false);
-                string query = "S_JOINROOM:" + client.nickName + ':' + secondPlayer + ":false";
+                string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":false";
                 client.SendData(query);
                 secondPlayer = null;
                 room = 0;

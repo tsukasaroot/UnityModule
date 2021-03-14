@@ -29,7 +29,7 @@ public class UDPClient : MonoBehaviour
         receivedData = new byte[0];
         string[] args = Environment.GetCommandLineArgs();
 
-        Client = new UdpClient(16384);
+        Client = new UdpClient(0);
 
         try
         {
