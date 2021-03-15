@@ -48,6 +48,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject controlsMenu;
         [SerializeField] private GameObject confirmationMenu;
         [SerializeField] private GameObject leaveRoom;
+        [SerializeField] private GameObject playButton;
         [Space(10)]
         [Header("Menu Popout Dialogs")]
         [SerializeField] private GameObject noSaveDialog;
@@ -57,6 +58,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject answerToInvitation;
         [SerializeField] private GameObject destroyRoomConfirmation;
         [SerializeField] private GameObject garbagePopup;
+        [SerializeField] private GameObject inviteController;
         #endregion
 
         #region Slider Linking
@@ -151,6 +153,7 @@ namespace SpeedTutorMainMenuSystem
             {
                 garbagePopup.SetActive(true);
                 garbagePopupText.text = "Already in party";
+                return;
             }
             string guestToInvite = InputField.GetComponent<TMP_InputField>().text;
             string query = "S_SENDROOM_INVITATION:";
@@ -189,6 +192,7 @@ namespace SpeedTutorMainMenuSystem
                 }
                 playerList.text += "Guest : " + guest;
                 leaveRoom.SetActive(true);
+                inviteController.SetActive(false);
             }
         }
 
@@ -203,6 +207,7 @@ namespace SpeedTutorMainMenuSystem
                 secondPlayer = chainList[1];
                 room = chainList[2];
                 receivedInvitation.SetActive(true);
+                inviteController.SetActive(false);
             } 
             else
             {
@@ -214,13 +219,12 @@ namespace SpeedTutorMainMenuSystem
         private void defineRoom(string[] chainList)
         {
             room = Int32.Parse(chainList[1]);
-            Debug.Log(room);
             if (room == 0)
             {
                 playerList.text = "";
                 leaveRoom.SetActive(false);
                 destroyRoomConfirmation.SetActive(false);
-                Debug.Log("room destroyed");
+                inviteController.SetActive(true);
             }
         }
 
@@ -235,7 +239,7 @@ namespace SpeedTutorMainMenuSystem
             opcodesPtr["C_LOGIN"] = login;
             opcodesPtr["C_ACCEPT_INVITATION"] = responseInvitation;
             opcodesPtr["C_SENDROOM_INVITATION"] = receiveInvitation;
-            opcodesPtr["C_DEFINE_ROOM_HOST"] = defineRoom;
+            opcodesPtr["C_DEFINE_ROOM"] = defineRoom;
             opcodesPtr["C_HOST_START_GAME"] = loadLevel;
         }
 
@@ -455,6 +459,7 @@ namespace SpeedTutorMainMenuSystem
                 // Hide PLAY button because not host of the room
                 playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
                 leaveRoom.SetActive(true);
+                playButton.SetActive(false);
             }
 
             if (ButtonType == "No")
@@ -464,6 +469,7 @@ namespace SpeedTutorMainMenuSystem
                 client.SendData(query);
                 secondPlayer = null;
                 room = 0;
+                inviteController.SetActive(true);
             }
         }
 
