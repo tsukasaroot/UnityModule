@@ -27,6 +27,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private bool defaultInvertY;
         [SerializeField] public Text Top;
         [SerializeField] public Text NamePlayerResponse;
+        [SerializeField] TextMeshProUGUI playerList;
 
         [Header("Levels To Load")]
         public string _newGameButtonLevel;
@@ -171,6 +172,12 @@ namespace SpeedTutorMainMenuSystem
 
             NamePlayerResponse.text = answer + " by " + guest;
             answerToInvitation.SetActive(true);
+
+            if (isHost)
+            {
+                playerList.text = "Host : " + client.nickName + '\n';
+            }
+            playerList.text += "guest : " + guest;
         }
 
         private void receiveInvitation(string[] chainList)
@@ -270,6 +277,11 @@ namespace SpeedTutorMainMenuSystem
                     newGameDialog.SetActive(true);
                     menuNumber = 7;
                 }
+
+                if (buttonType == "DestroyRoom")
+                {
+                    // display popup to confirm room destruction
+                }
             }
 
             if (buttonType == "Exit")
@@ -365,6 +377,20 @@ namespace SpeedTutorMainMenuSystem
         #endregion
 
         #region Dialog Options - This is where we load what has been saved in player prefs!
+
+        private void ClickDestroyRoom(string ButtonType)
+        {
+            if (ButtonType == "yes")
+            {
+                // destroy room
+            }
+
+            if (ButtonType == "no")
+            {
+                // hide popup and do nothing
+            }
+        }
+
         public void ClickNewGameDialog(string ButtonType)
         {
             if (ButtonType == "Yes")
