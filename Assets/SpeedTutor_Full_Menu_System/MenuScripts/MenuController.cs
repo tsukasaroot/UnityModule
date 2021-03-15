@@ -27,6 +27,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private bool defaultInvertY;
         [SerializeField] public Text Top;
         [SerializeField] public Text NamePlayerResponse;
+        [SerializeField] public Text garbagePopupText;
         [SerializeField] TextMeshProUGUI playerList;
 
         [Header("Levels To Load")]
@@ -46,6 +47,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject gameplayMenu;
         [SerializeField] private GameObject controlsMenu;
         [SerializeField] private GameObject confirmationMenu;
+        [SerializeField] private GameObject leaveRoom;
         [Space(10)]
         [Header("Menu Popout Dialogs")]
         [SerializeField] private GameObject noSaveDialog;
@@ -53,6 +55,8 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private GameObject loadGameDialog;
         [SerializeField] private GameObject receivedInvitation;
         [SerializeField] private GameObject answerToInvitation;
+        [SerializeField] private GameObject destroyRoomConfirmation;
+        [SerializeField] private GameObject garbagePopup;
         #endregion
 
         #region Slider Linking
@@ -144,7 +148,10 @@ namespace SpeedTutorMainMenuSystem
         private void SendInvite()
         {
             if (room > 0)
-                Debug.Log("already in party");
+            {
+                garbagePopup.SetActive(true);
+                garbagePopupText.text = "Already in party";
+            }
             string guestToInvite = InputField.GetComponent<TMP_InputField>().text;
             string query = "S_SENDROOM_INVITATION:";
             query += client.nickName + ':' + guestToInvite;
@@ -164,7 +171,8 @@ namespace SpeedTutorMainMenuSystem
 
             if (answer == "undefined")
             {
-                Debug.Log("Player not online");
+                garbagePopup.SetActive(true);
+                garbagePopupText.text = "Player is not online";
                 return;
             }
 
@@ -173,11 +181,15 @@ namespace SpeedTutorMainMenuSystem
             NamePlayerResponse.text = answer + " by " + guest;
             answerToInvitation.SetActive(true);
 
-            if (isHost)
+            if (answer == "Accepted")
             {
-                playerList.text = "Host : " + client.nickName + '\n';
+                if (isHost)
+                {
+                    playerList.text = "Host : " + client.nickName + '\n';
+                }
+                playerList.text += "Guest : " + guest;
+                leaveRoom.SetActive(true);
             }
-            playerList.text += "guest : " + guest;
         }
 
         private void receiveInvitation(string[] chainList)
@@ -194,7 +206,8 @@ namespace SpeedTutorMainMenuSystem
             } 
             else
             {
-                Debug.Log("Player not online");
+                garbagePopup.SetActive(true);
+                garbagePopupText.text = "Player is not online";
             }
         }
 
@@ -280,7 +293,7 @@ namespace SpeedTutorMainMenuSystem
 
                 if (buttonType == "DestroyRoom")
                 {
-                    // display popup to confirm room destruction
+                    destroyRoomConfirmation.SetActive(true);
                 }
             }
 
@@ -378,16 +391,27 @@ namespace SpeedTutorMainMenuSystem
 
         #region Dialog Options - This is where we load what has been saved in player prefs!
 
-        private void ClickDestroyRoom(string ButtonType)
+        public void ClickDismissGarbage(string ButtonType)
         {
-            if (ButtonType == "yes")
+            if (ButtonType == "Ok")
             {
-                // destroy room
+                garbagePopup.SetActive(false);
+                garbagePopupText.text = "";
+            }
+        }
+
+        public void ClickDestroyRoom(string ButtonType)
+        {
+            if (ButtonType == "Yes")
+            {
+                playerList.text = "";
+                leaveRoom.SetActive(false);
+                destroyRoomConfirmation.SetActive(false);
             }
 
-            if (ButtonType == "no")
+            if (ButtonType == "No")
             {
-                // hide popup and do nothing
+                destroyRoomConfirmation.SetActive(false);
             }
         }
 
@@ -423,6 +447,8 @@ namespace SpeedTutorMainMenuSystem
                 client.SendData(query);
                 receivedInvitation.SetActive(false);
                 // Hide PLAY button because not host of the room
+                playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
+                leaveRoom.SetActive(true);
             }
 
             if (ButtonType == "No")
