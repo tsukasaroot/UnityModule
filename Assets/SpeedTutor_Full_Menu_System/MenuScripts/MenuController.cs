@@ -215,6 +215,13 @@ namespace SpeedTutorMainMenuSystem
         {
             room = Int32.Parse(chainList[1]);
             Debug.Log(room);
+            if (room == 0)
+            {
+                playerList.text = "";
+                leaveRoom.SetActive(false);
+                destroyRoomConfirmation.SetActive(false);
+                Debug.Log("room destroyed");
+            }
         }
 
         private void loadLevel(string[] chainList)
@@ -404,9 +411,8 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                playerList.text = "";
-                leaveRoom.SetActive(false);
-                destroyRoomConfirmation.SetActive(false);
+                string query = "S_DESTROY_ROOM:" + client.nickName;
+                client.SendData(query);
             }
 
             if (ButtonType == "No")
