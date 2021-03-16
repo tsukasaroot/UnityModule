@@ -1145,7 +1145,7 @@ PrefabInstance:
     - target: {fileID: 114631456466944034, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: City
+      value: CityRace
       objectReference: {fileID: 0}
     - target: {fileID: 114666141393104992, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}

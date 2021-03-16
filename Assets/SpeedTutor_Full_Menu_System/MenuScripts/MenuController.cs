@@ -227,13 +227,14 @@ namespace SpeedTutorMainMenuSystem
                 leaveRoom.SetActive(false);
                 destroyRoomConfirmation.SetActive(false);
                 inviteController.SetActive(true);
+                playButton.SetActive(true);
             }
         }
 
         private void loadLevel(string[] chainList)
         {
             Debug.Log(chainList[1]);
-            SceneManager.LoadScene(chainList[0]);
+            SceneManager.LoadScene(chainList[1]);
         }
 
         private void initializeOpcodes()
@@ -423,16 +424,13 @@ namespace SpeedTutorMainMenuSystem
 
         public void ClickNewGameDialog(string ButtonType)
         {
-            if (ButtonType == "City")
+            if (ButtonType == "CityRace")
             {
                 if (isHost)
                 {
-                    string query = "S_START_GAME:" + client.nickName + ":1";
+                    string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
                     client.SendData(query);
                 }
-                Debug.Log("City");
-                // Will send scene number to other player here too
-                // SceneManager.LoadScene("CityRace");
             }
 
             if (ButtonType == "Back")
