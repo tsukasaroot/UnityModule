@@ -29,6 +29,7 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] public Text NamePlayerResponse;
         [SerializeField] public Text garbagePopupText;
         [SerializeField] TextMeshProUGUI playerList;
+        [SerializeField] public Text connectionState;
 
         [Header("Levels To Load")]
         public string _newGameButtonLevel;
@@ -164,6 +165,7 @@ namespace SpeedTutorMainMenuSystem
         private void login(string[] chainList)
         {
             this.connected = true;
+            connectionState.text = "Connected";
         }
 
         private void responseInvitation(string[] chainList)
@@ -286,13 +288,6 @@ namespace SpeedTutorMainMenuSystem
                     menuDefaultCanvas.SetActive(false);
                     GeneralSettingsCanvas.SetActive(true);
                     menuNumber = 2;
-                }
-
-                if (buttonType == "LoadGame")
-                {
-                    menuDefaultCanvas.SetActive(false);
-                    loadGameDialog.SetActive(true);
-                    menuNumber = 8;
                 }
 
                 if (buttonType == "NewGame")
@@ -427,15 +422,19 @@ namespace SpeedTutorMainMenuSystem
 
         public void ClickNewGameDialog(string ButtonType)
         {
-            if (ButtonType == "Yes")
+            if (ButtonType == "City")
             {
-                string query = "S_START_GAME:" + client.nickName + ":1";
-                client.SendData(query);
+                if (isHost)
+                {
+                    string query = "S_START_GAME:" + client.nickName + ":1";
+                    client.SendData(query);
+                }
+                Debug.Log("City");
                 // Will send scene number to other player here too
-                // SceneManager.LoadScene(_newGameButtonLevel);
+                // SceneManager.LoadScene("CityRace");
             }
 
-            if (ButtonType == "No")
+            if (ButtonType == "Back")
             {
                 GoBackToMainMenu();
             }
@@ -470,33 +469,6 @@ namespace SpeedTutorMainMenuSystem
                 secondPlayer = null;
                 room = 0;
                 inviteController.SetActive(true);
-            }
-        }
-
-        public void ClickLoadGameDialog(string ButtonType)
-        {
-            if (ButtonType == "Yes")
-            {
-                if (PlayerPrefs.HasKey("SavedLevel"))
-                {
-                    Debug.Log("I WANT TO LOAD THE SAVED GAME");
-                    //LOAD LAST SAVED SCENE
-                    levelToLoad = PlayerPrefs.GetString("SavedLevel");
-                    SceneManager.LoadScene(levelToLoad);
-                }
-
-                else
-                {
-                    Debug.Log("Load Game Dialog");
-                    menuDefaultCanvas.SetActive(false);
-                    loadGameDialog.SetActive(false);
-                    noSaveDialog.SetActive(true);
-                }
-            }
-
-            if (ButtonType == "No")
-            {
-                GoBackToMainMenu();
             }
         }
         #endregion
