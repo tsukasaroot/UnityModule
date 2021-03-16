@@ -233,6 +233,7 @@ namespace SpeedTutorMainMenuSystem
         private void loadLevel(string[] chainList)
         {
             Debug.Log(chainList[1]);
+            SceneManager.LoadScene(chainList[0]);
         }
 
         private void initializeOpcodes()
