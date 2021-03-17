@@ -23,6 +23,7 @@ public class UDPClient : MonoBehaviour
     private string dataString;
     public string nickName;
     public string pass;
+    public string secondPlayer;
 
     void Start()
     {

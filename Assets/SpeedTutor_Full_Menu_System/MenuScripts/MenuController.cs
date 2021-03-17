@@ -78,6 +78,11 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private Toggle invertYToggle;
         #endregion
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(client);
+        }
+
         #region Initialisation - Button Selection & Menu Order
         private void Start()
         {
@@ -195,6 +200,7 @@ namespace SpeedTutorMainMenuSystem
                 playerList.text += "Guest : " + guest;
                 leaveRoom.SetActive(true);
                 inviteController.SetActive(false);
+                client.secondPlayer = guest;
             }
         }
 
@@ -458,6 +464,7 @@ namespace SpeedTutorMainMenuSystem
                 playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
                 leaveRoom.SetActive(true);
                 playButton.SetActive(false);
+                client.secondPlayer = secondPlayer;
             }
 
             if (ButtonType == "No")

@@ -7,6 +7,8 @@ public class player : MonoBehaviour
     public float speed;
     private Rigidbody rb;
     public Transform camera;
+    public UDPClient client;
+
     // Start is called before the first frame update
     void Start()
     {
