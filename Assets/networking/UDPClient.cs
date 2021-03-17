@@ -24,6 +24,7 @@ public class UDPClient : MonoBehaviour
     public string nickName;
     public string pass;
     public string secondPlayer;
+    public int room;
 
     void Start()
     {

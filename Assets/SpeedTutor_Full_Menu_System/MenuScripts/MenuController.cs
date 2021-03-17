@@ -202,6 +202,7 @@ namespace SpeedTutorMainMenuSystem
                 leaveRoom.SetActive(true);
                 inviteController.SetActive(false);
                 client.secondPlayer = guest;
+                client.room = room;
             }
         }
 
@@ -228,6 +229,7 @@ namespace SpeedTutorMainMenuSystem
         private void defineRoom(string[] chainList)
         {
             room = Int32.Parse(chainList[1]);
+            client.room = room;
             if (room == 0)
             {
                 playerList.text = "";
@@ -240,7 +242,6 @@ namespace SpeedTutorMainMenuSystem
 
         private void loadLevel(string[] chainList)
         {
-            Debug.Log(chainList[1]);
             SceneManager.LoadScene(chainList[1]);
         }
 
