@@ -7,18 +7,20 @@ public class player : MonoBehaviour
     public float speed;
     private Rigidbody rb;
     public Transform camera;
-    public UDPClient client;
+    private UDPClient client;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         Cursor.visible = false;
+        client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(client.nickName);
         float v = Input.GetAxis("Vertical");
 
         rb.AddForce(transform.forward * v * speed);

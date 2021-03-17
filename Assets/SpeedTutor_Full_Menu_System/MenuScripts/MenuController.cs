@@ -80,7 +80,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void Awake()
         {
-            DontDestroyOnLoad(client);
+            
         }
 
         #region Initialisation - Button Selection & Menu Order
@@ -89,6 +89,7 @@ namespace SpeedTutorMainMenuSystem
             menuNumber = 1;
             client = Instantiate(UDPclient);
             initializeOpcodes();
+            DontDestroyOnLoad(client);
         }
         #endregion
 
