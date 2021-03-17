@@ -16,7 +16,7 @@ public class camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = new Vector3(targetToFollow.position.x, transform.position.y, targetToFollow.position.z - 5);
+        transform.position = new Vector3(targetToFollow.position.x, targetToFollow.position.y, targetToFollow.position.z - 5);
         transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y + (Input.GetAxis("Mouse X") * sensitivity), transform.rotation.z, transform.rotation.w);
         float angle = transform.rotation.eulerAngles.y - 180;
         if (angle < 0)

@@ -16,6 +16,15 @@ public class player : MonoBehaviour
     private bool sent = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
 
+    private Vector3 m_vOriginalPosition;
+    private Quaternion m_qOriginalRotation;
+
+    private void Awake()
+    {
+        m_vOriginalPosition = transform.position;
+        m_qOriginalRotation = transform.rotation;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +63,16 @@ public class player : MonoBehaviour
 
             rb.AddForce(transform.forward * v * speed);
             rb.MoveRotation(camera.rotation);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "DeathZone")
+        {
+            transform.position = m_vOriginalPosition;
+            transform.rotation = m_qOriginalRotation;
+            rb.velocity = Vector3.zero;
         }
     }
 
