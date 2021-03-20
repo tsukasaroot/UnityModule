@@ -37,11 +37,13 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        string query;
         if (!ready && !sent)
         {
-            string query = "S_READY:" + client.nickName;
+            query = "S_READY:" + client.nickName;
             client.SendData(query);
             sent = true;
+            query = null;
         }
 
         string toExecute = client.ReceiveData();
@@ -56,6 +58,11 @@ public class player : MonoBehaviour
             }
             toExecute = null;
         }
+
+        query = "S_MOVEMENT:" + client.nickName + ':';
+        query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+        client.SendData(query);
+        query = null;
 
         if (ready)
         {
@@ -87,10 +94,16 @@ public class player : MonoBehaviour
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
     }
 
+    private void manageSecondPlayerMovement(string[] chainList)
+    {
+
+    }
+
     private void initializeOpcodes()
     {
         opcodesPtr = new Dictionary<string, Action<string[]>>();
         opcodesPtr["C_COUNTDOWN_START"] = countDown;
         opcodesPtr["C_START"] = startRace;
+        opcodesPtr["C_PLAYER_MOVEMENT"] = manageSecondPlayerMovement;
     }
 }
