@@ -27674,6 +27674,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5756197346136023888, guid: 45611b0a8fde23b46ad3318402fc04e2,
+        type: 3}
+      propertyPath: countdownText
+      value: 
+      objectReference: {fileID: 257730072}
+    - target: {fileID: 5756197346136023888, guid: 45611b0a8fde23b46ad3318402fc04e2,
+        type: 3}
+      propertyPath: showCountdown
+      value: 
+      objectReference: {fileID: 1292710777}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45611b0a8fde23b46ad3318402fc04e2, type: 3}
 --- !u!20 &806084392 stripped
@@ -43786,12 +43796,12 @@ GameObject:
   - component: {fileID: 1292710779}
   - component: {fileID: 1292710783}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: CountdownContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1292710778
 RectTransform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ public class player : MonoBehaviour
     public float speed;
     private Rigidbody rb;
     public Transform camera;
+    public GameObject showCountdown;
+    public Text countdownText;
     private UDPClient client;
     private bool ready = false;
     private bool sent = false;
@@ -84,15 +86,16 @@ public class player : MonoBehaviour
 
     private void countDown(string[] chainList)
     {
-        // display countDown on middle of screen
-        Debug.Log(chainList[1]);
+        if (chainList[1] == "3")
+            showCountdown.SetActive(true);
+        countdownText.text = chainList[1];
     }
 
     private void startRace(string[] chainList)
     {
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
         ready = true;
-        Debug.Log(chainList[0]);
+        showCountdown.SetActive(false);
     }
 
     private void manageSecondPlayerMovement(string[] chainList)
