@@ -51,7 +51,6 @@ public class player : MonoBehaviour
         {
             string[] isValidCommand = toExecute.Split(':');
 
-            Debug.Log(isValidCommand[0]);
             if (opcodesPtr.ContainsKey(isValidCommand[0]))
             {
                 opcodesPtr[isValidCommand[0]](isValidCommand);
@@ -59,17 +58,17 @@ public class player : MonoBehaviour
             toExecute = null;
         }
 
-        query = "S_MOVEMENT:" + client.nickName + ':';
-        query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-        client.SendData(query);
-        query = null;
-
         if (ready)
         {
             float v = Input.GetAxis("Vertical");
 
             rb.AddForce(transform.forward * v * speed);
             rb.MoveRotation(camera.rotation);
+
+            query = "S_MOVEMENT:" + client.nickName + ':';
+            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+            client.SendData(query);
+            query = null;
         }
     }
 
@@ -86,16 +85,19 @@ public class player : MonoBehaviour
     private void countDown(string[] chainList)
     {
         // display countDown on middle of screen
-        Debug.Log("Countdown started...");
+        Debug.Log(chainList[1]);
     }
 
     private void startRace(string[] chainList)
     {
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
+        ready = true;
+        Debug.Log(chainList[0]);
     }
 
     private void manageSecondPlayerMovement(string[] chainList)
     {
+        // Here we move the second player
 
     }
 
