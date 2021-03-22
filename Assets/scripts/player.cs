@@ -9,8 +9,10 @@ using TMPro;
 public class player : MonoBehaviour
 {
     public float speed;
-    private Rigidbody rb;
     public Transform camera;
+    public Rigidbody player_body;
+    private Rigidbody player_body_rb;
+    private Transform player_body_transform;
     private UDPClient client;
     private bool ready = false;
     private bool sent = false;
@@ -28,7 +30,8 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        player_body_rb = player_body.GetComponent<Rigidbody>();
+        player_body_transform = player_body.GetComponent<Transform>();
         Cursor.visible = false;
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
@@ -68,8 +71,8 @@ public class player : MonoBehaviour
         {
             float v = Input.GetAxis("Vertical");
 
-            rb.AddForce(transform.forward * v * speed);
-            rb.MoveRotation(camera.rotation);
+            player_body.AddForce(transform.forward * v * speed);
+            player_body.MoveRotation(camera.rotation);
         }
     }
 
@@ -79,7 +82,7 @@ public class player : MonoBehaviour
         {
             transform.position = m_vOriginalPosition;
             transform.rotation = m_qOriginalRotation;
-            rb.velocity = Vector3.zero;
+            player_body_rb.velocity = Vector3.zero;
         }
     }
 
