@@ -19,13 +19,17 @@ public class player : MonoBehaviour
     Dictionary<string, Action<string[]>> opcodesPtr;
 
     private Vector3 m_vOriginalPosition;
+    private Vector3 m_vOriginalCameraPosition;
     private Quaternion m_qOriginalRotation;
+    private Quaternion m_qOriginalCameraRotation;
     private Vector3 m_vLastCheckPointPosition;
 
     private void Awake()
     {
         m_vOriginalPosition = transform.position;
+        m_vOriginalCameraPosition = camera.position;
         m_qOriginalRotation = transform.rotation;
+        m_qOriginalCameraRotation = camera.rotation;
         m_vLastCheckPointPosition = m_vOriginalPosition;
     }
 
@@ -84,6 +88,8 @@ public class player : MonoBehaviour
         {
             transform.position = m_vLastCheckPointPosition;
             transform.rotation = m_qOriginalRotation;
+            camera.position = m_vOriginalCameraPosition;
+            camera.rotation = m_qOriginalCameraRotation;
             rb.velocity = Vector3.zero;
         }
     }
