@@ -20,11 +20,13 @@ public class player : MonoBehaviour
 
     private Vector3 m_vOriginalPosition;
     private Quaternion m_qOriginalRotation;
+    private Vector3 m_vLastCheckPointPosition;
 
     private void Awake()
     {
         m_vOriginalPosition = transform.position;
         m_qOriginalRotation = transform.rotation;
+        m_vLastCheckPointPosition = m_vOriginalPosition;
     }
 
     // Start is called before the first frame update
@@ -80,9 +82,17 @@ public class player : MonoBehaviour
     {
         if (collision.collider.tag == "DeathZone")
         {
-            transform.position = m_vOriginalPosition;
+            transform.position = m_vLastCheckPointPosition;
             transform.rotation = m_qOriginalRotation;
             rb.velocity = Vector3.zero;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "CheckPoint")
+        {
+            m_vLastCheckPointPosition = other.gameObject.transform.position;
         }
     }
 
