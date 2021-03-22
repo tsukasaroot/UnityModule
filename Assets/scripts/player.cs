@@ -13,18 +13,26 @@ public class player : MonoBehaviour
     public Rigidbody player_body;
     private Rigidbody player_body_rb;
     private Transform player_body_transform;
+    public GameObject showCountdown;
+    public Text countdownText;
     private UDPClient client;
     private bool ready = false;
     private bool sent = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
 
     private Vector3 m_vOriginalPosition;
+    private Vector3 m_vOriginalCameraPosition;
     private Quaternion m_qOriginalRotation;
+    private Quaternion m_qOriginalCameraRotation;
+    private Vector3 m_vLastCheckPointPosition;
 
     private void Awake()
     {
         m_vOriginalPosition = transform.position;
+        m_vOriginalCameraPosition = camera.position;
         m_qOriginalRotation = transform.rotation;
+        m_qOriginalCameraRotation = camera.rotation;
+        m_vLastCheckPointPosition = m_vOriginalPosition;
     }
 
     // Start is called before the first frame update
@@ -54,7 +62,6 @@ public class player : MonoBehaviour
         {
             string[] isValidCommand = toExecute.Split(':');
 
-            Debug.Log(isValidCommand[0]);
             if (opcodesPtr.ContainsKey(isValidCommand[0]))
             {
                 opcodesPtr[isValidCommand[0]](isValidCommand);
@@ -62,17 +69,19 @@ public class player : MonoBehaviour
             toExecute = null;
         }
 
-        query = "S_MOVEMENT:" + client.nickName + ':';
-        query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-        client.SendData(query);
-        query = null;
-
         if (ready)
         {
             float v = Input.GetAxis("Vertical");
 
             player_body.AddForce(transform.forward * v * speed);
             player_body.MoveRotation(camera.rotation);
+
+            query = "S_MOVEMENT:" + client.nickName + ':';
+            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+            client.SendData(query);
+            query = null;
+            if (showCountdown.activeSelf)
+                showCountdown.SetActive(false);
         }
     }
 
@@ -80,25 +89,39 @@ public class player : MonoBehaviour
     {
         if (collision.collider.tag == "DeathZone")
         {
-            transform.position = m_vOriginalPosition;
+            transform.position = m_vLastCheckPointPosition;
             transform.rotation = m_qOriginalRotation;
+            camera.position = m_vOriginalCameraPosition;
+            camera.rotation = m_qOriginalCameraRotation;
             player_body_rb.velocity = Vector3.zero;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "CheckPoint")
+        {
+            m_vLastCheckPointPosition = other.gameObject.transform.position;
         }
     }
 
     private void countDown(string[] chainList)
     {
-        // display countDown on middle of screen
-        Debug.Log("Countdown started...");
+        if (chainList[1] == "3")
+            showCountdown.SetActive(true);
+        countdownText.text = chainList[1];
     }
 
     private void startRace(string[] chainList)
     {
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
+        ready = true;
+        countdownText.text = "GO!";
     }
 
     private void manageSecondPlayerMovement(string[] chainList)
     {
+        // Here we move the second player
 
     }
 
