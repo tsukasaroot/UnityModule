@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DeathZone
   - CheckPoint
+  - END
   layers:
   - Default
   - TransparentFX
