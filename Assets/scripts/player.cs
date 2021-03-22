@@ -71,6 +71,8 @@ public class player : MonoBehaviour
             query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
             client.SendData(query);
             query = null;
+            if (showCountdown.activeSelf)
+                showCountdown.SetActive(false);
         }
     }
 
@@ -95,7 +97,7 @@ public class player : MonoBehaviour
     {
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
         ready = true;
-        showCountdown.SetActive(false);
+        countdownText.text = "GO!";
     }
 
     private void manageSecondPlayerMovement(string[] chainList)
