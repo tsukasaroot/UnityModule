@@ -223,9 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d756bebffc2bdb54ba623e994fb65433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 0.1
+  sensitivity: 10
+  upSensitivity: 5
   distance: 5
-  targetToFollow: {fileID: 4724049711532141896}
+  targetToFollow: {fileID: 4724049709616743121}
 --- !u!1 &4724049711532141897
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,3 +275,5 @@ MonoBehaviour:
   speed: 5
   camera: {fileID: 4724049710427161526}
   player_body: {fileID: 3500591357367177672}
+  showCountdown: {fileID: 0}
+  countdownText: {fileID: 0}
