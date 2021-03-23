@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6625902051734112382}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   speed: 5
   camera: {fileID: 4724049710427161526}
   player_body: {fileID: 3500591357367177672}
-  m_fAcceleratorSpeed: 50
+  m_fAcceleratorSpeed: 35
   showCountdown: {fileID: 0}
   countdownText: {fileID: 0}
   m_backgroundMusic: {fileID: 7106112896578224381}
@@ -256,10 +256,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4724049711532141896}
-  - component: {fileID: 5756197346136023888}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,25 +280,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5756197346136023888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4724049711532141897}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de2229fa9e38d848a861197b92783f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  camera: {fileID: 4724049710427161526}
-  player_body: {fileID: 3500591357367177672}
-  m_fAcceleratorSpeed: 50
-  showCountdown: {fileID: 0}
-  countdownText: {fileID: 0}
-  m_backgroundMusic: {fileID: 0}
 --- !u!1 &6148344701231081470
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +323,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6c36ccc83e43049408c0efee8863fcaa, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
