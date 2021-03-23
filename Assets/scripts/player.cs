@@ -43,6 +43,11 @@ public class player : MonoBehaviour
 
     private bool bIsOnAccelerator = false;
 
+    /*
+     *  Music and sound effect variables
+     */
+    public AudioSource m_backgroundMusic;
+
     private void Awake()
     {
         m_vOriginalPosition = transform.position;
@@ -88,6 +93,10 @@ public class player : MonoBehaviour
 
         if (ready)
         {
+            //
+            // TODO: Call this method after the countdown when the race start.
+            StartMusic();
+
             float fVerticalForce = Input.GetAxis("Vertical") * (bIsOnAccelerator ? m_fAcceleratorSpeed : speed);
             Vector3 vMouvementVector = transform.rotation * new Vector3(0.0f, 0.0f, fVerticalForce);
 
@@ -159,5 +168,13 @@ public class player : MonoBehaviour
         opcodesPtr["C_COUNTDOWN_START"] = countDown;
         opcodesPtr["C_START"] = startRace;
         opcodesPtr["C_PLAYER_MOVEMENT"] = manageSecondPlayerMovement;
+    }
+
+    private void StartMusic()
+    {
+        if (!m_backgroundMusic.isPlaying)
+        {
+            m_backgroundMusic.Play();
+        }
     }
 }
