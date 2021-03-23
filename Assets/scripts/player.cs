@@ -103,14 +103,14 @@ public class player : MonoBehaviour
             player_body.AddForce(vMouvementVector);
             player_body.MoveRotation(camera.rotation);
 
-            query = "S_MOVEMENT:" + client.nickName + ':';
-            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-            client.SendData(query);
-            query = null;
-            if (showCountdown.activeSelf)
-                showCountdown.SetActive(false);
-        }
+        query = "S_MOVEMENT:" + client.nickName + ':';
+        query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+        client.SendData(query);
+        query = null;
+        if (showCountdown.activeSelf)
+            showCountdown.SetActive(false);
     }
+}
 
     private void OnCollisionEnter(Collision collision)
     {
