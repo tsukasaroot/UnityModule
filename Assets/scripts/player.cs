@@ -96,17 +96,19 @@ public class player : MonoBehaviour
             //
             // TODO: Call this method after the countdown when the race start.
             StartMusic();
+            if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
+            {
+                float fVerticalForce = Input.GetAxis("Vertical") * (bIsOnAccelerator ? m_fAcceleratorSpeed : speed);
+                Vector3 vMouvementVector = transform.rotation * new Vector3(0.0f, 0.0f, fVerticalForce);
 
-            float fVerticalForce = Input.GetAxis("Vertical") * (bIsOnAccelerator ? m_fAcceleratorSpeed : speed);
-            Vector3 vMouvementVector = transform.rotation * new Vector3(0.0f, 0.0f, fVerticalForce);
+                player_body.AddForce(vMouvementVector);
+                player_body.MoveRotation(camera.rotation);
 
-            player_body.AddForce(vMouvementVector);
-            player_body.MoveRotation(camera.rotation);
-
-            query = "S_MOVEMENT:" + client.nickName + ':';
-            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-            client.SendData(query);
-            query = null;
+                query = "S_MOVEMENT:" + client.nickName + ':';
+                query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+                client.SendData(query);
+                query = null;
+            }
             if (showCountdown.activeSelf)
                 showCountdown.SetActive(false);
         }

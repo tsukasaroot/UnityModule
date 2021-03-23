@@ -17,7 +17,7 @@ public class camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xRotation = transform.rotation.eulerAngles.x + (Input.GetAxis("Mouse Y") * upSensitivity);
+        float xRotation = transform.rotation.eulerAngles.x + (Input.GetAxis("Mouse Y") * -1 * upSensitivity);
         float yRotation = transform.rotation.eulerAngles.y + (Input.GetAxis("Mouse X") * sensitivity);
         float zRotation = transform.rotation.eulerAngles.z;
 
