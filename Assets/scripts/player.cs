@@ -8,23 +8,40 @@ using TMPro;
 
 public class player : MonoBehaviour
 {
+    /*
+     *  Public variables for player management
+     */
     public float speed;
     public Transform camera;
     public Rigidbody player_body;
-    private Rigidbody player_body_rb;
-    private Transform player_body_transform;
+    public float m_fAcceleratorSpeed;
+
+    /*
+     *  Public variables for network timer
+     */
     public GameObject showCountdown;
     public Text countdownText;
+    
+    /*
+     * Private variables for network management
+     */
     private UDPClient client;
+    private Rigidbody player_body_rb;
+    private Transform player_body_transform;
     private bool ready = false;
     private bool sent = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
 
+    /*
+     *  Respawn variables. 
+     */
     private Vector3 m_vOriginalPosition;
     private Vector3 m_vOriginalCameraPosition;
     private Quaternion m_qOriginalRotation;
     private Quaternion m_qOriginalCameraRotation;
     private Vector3 m_vLastCheckPointPosition;
+
+    private bool bIsOnAccelerator = false;
 
     private void Awake()
     {
@@ -71,9 +88,10 @@ public class player : MonoBehaviour
 
         if (ready)
         {
-            float v = Input.GetAxis("Vertical");
+            float fVerticalForce = Input.GetAxis("Vertical") * (bIsOnAccelerator ? m_fAcceleratorSpeed : speed);
+            Vector3 vMouvementVector = transform.rotation * new Vector3(0.0f, 0.0f, fVerticalForce);
 
-            player_body.AddForce(transform.forward * v * speed);
+            player_body.AddForce(vMouvementVector);
             player_body.MoveRotation(camera.rotation);
 
             query = "S_MOVEMENT:" + client.nickName + ':';
@@ -102,6 +120,16 @@ public class player : MonoBehaviour
         if (other.tag == "CheckPoint")
         {
             m_vLastCheckPointPosition = other.gameObject.transform.position;
+        } else if (other.tag == "Accelerator") {
+            bIsOnAccelerator = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Accelerator")
+        {
+            bIsOnAccelerator = false;
         }
     }
 
