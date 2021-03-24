@@ -15,6 +15,7 @@ public class player : MonoBehaviour
     public Transform camera;
     public Rigidbody player_body;
     public float m_fAcceleratorSpeed;
+    public GameObject otherPlayer;
 
     /*
      *  Public variables for network timer
@@ -98,8 +99,6 @@ public class player : MonoBehaviour
 
         if (ready)
         {
-            //
-            // TODO: Call this method after the countdown when the race start.
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
             {
@@ -109,15 +108,15 @@ public class player : MonoBehaviour
                 player_body.AddForce(vMouvementVector);
                 player_body.MoveRotation(camera.rotation);
 
+            }
+            if (showCountdown.activeSelf)
+                showCountdown.SetActive(false);
             query = "S_MOVEMENT:" + client.nickName + ':';
             query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
             client.SendData(query);
             query = null;
         }
-        if (showCountdown.activeSelf)
-            showCountdown.SetActive(false);
     }
-}
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -167,13 +166,17 @@ public class player : MonoBehaviour
     {
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
         ready = true;
+        sent = false;
         countdownText.text = "GO!";
     }
 
     private void manageSecondPlayerMovement(string[] chainList)
     {
-        // Here we move the second player
+        float x = float.Parse(chainList[1]);
+        float y = float.Parse(chainList[2]);
+        float z = float.Parse(chainList[3]);
 
+        otherPlayer.transform.position = new Vector3(x, y, z);
     }
 
     private void initializeOpcodes()
