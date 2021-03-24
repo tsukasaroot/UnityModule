@@ -42,12 +42,17 @@ public class player : MonoBehaviour
     private Quaternion m_qOriginalCameraRotation;
     private Vector3 m_vLastCheckPointPosition;
 
+    /*
+     * Status variables
+     */
     private bool bIsOnAccelerator = false;
+    private short trophyNumber = 0;
 
     /*
      *  Music and sound effect variables
      */
     public AudioSource m_backgroundMusic;
+    public AudioSource m_trophySoundEffect;
 
     private void Awake()
     {
@@ -103,19 +108,25 @@ public class player : MonoBehaviour
                 player_body.AddForce(vMouvementVector);
                 player_body.MoveRotation(camera.rotation);
 
+<<<<<<< HEAD
             }
             if (showCountdown.activeSelf)
                 showCountdown.SetActive(false);
+=======
+>>>>>>> e5d53ef03f1b78d839c0e5155c7ed7eeccf78705
             query = "S_MOVEMENT:" + client.nickName + ':';
             query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
             client.SendData(query);
             query = null;
         }
+        if (showCountdown.activeSelf)
+            showCountdown.SetActive(false);
     }
+}
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "DeathZone")
+        if (collision.collider.tag == "DeathZone" || collision.collider.name.Contains("TunnelEnding"))
         {
             transform.position = m_vLastCheckPointPosition;
             transform.rotation = m_qOriginalRotation;
@@ -132,6 +143,13 @@ public class player : MonoBehaviour
             m_vLastCheckPointPosition = other.gameObject.transform.position;
         } else if (other.tag == "Accelerator") {
             bIsOnAccelerator = true;
+        } else if (other.tag == "Trophy") {
+            if (!m_trophySoundEffect.isPlaying)
+            {
+                m_trophySoundEffect.Play();
+            }
+            other.gameObject.SetActive(false);
+            trophyNumber++;
         }
     }
 
