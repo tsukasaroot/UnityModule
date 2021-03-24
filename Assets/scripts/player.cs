@@ -41,7 +41,11 @@ public class player : MonoBehaviour
     private Quaternion m_qOriginalCameraRotation;
     private Vector3 m_vLastCheckPointPosition;
 
+    /*
+     * Status variables
+     */
     private bool bIsOnAccelerator = false;
+    private short trophyNumber = 0;
 
     /*
      *  Music and sound effect variables
@@ -104,15 +108,15 @@ public class player : MonoBehaviour
                 player_body.AddForce(vMouvementVector);
                 player_body.MoveRotation(camera.rotation);
 
-                query = "S_MOVEMENT:" + client.nickName + ':';
-                query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-                client.SendData(query);
-                query = null;
-            }
-            if (showCountdown.activeSelf)
-                showCountdown.SetActive(false);
+            query = "S_MOVEMENT:" + client.nickName + ':';
+            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+            client.SendData(query);
+            query = null;
         }
+        if (showCountdown.activeSelf)
+            showCountdown.SetActive(false);
     }
+}
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -133,6 +137,9 @@ public class player : MonoBehaviour
             m_vLastCheckPointPosition = other.gameObject.transform.position;
         } else if (other.tag == "Accelerator") {
             bIsOnAccelerator = true;
+        } else if (other.tag == "Trophy") {
+            other.gameObject.SetActive(false);
+            trophyNumber++;
         }
     }
 
