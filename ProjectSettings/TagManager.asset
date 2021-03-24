@@ -8,6 +8,7 @@ TagManager:
   - CheckPoint
   - END
   - Accelerator
+  - Trophy
   layers:
   - Default
   - TransparentFX
