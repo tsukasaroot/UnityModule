@@ -67,37 +67,37 @@ public class player : MonoBehaviour
     {
         player_body_rb = player_body.GetComponent<Rigidbody>();
         player_body_transform = player_body.GetComponent<Transform>();
-        //Cursor.visible = false;
-        //client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
-        //initializeOpcodes();
+        Cursor.visible = false;
+        client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
+        initializeOpcodes();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //string query;
-        //if (!ready && !sent)
-        //{
-        //    query = "S_READY:" + client.nickName;
-        //    client.SendData(query);
-        //    sent = true;
-        //    query = null;
-        //}
+        string query;
+        if (!ready && !sent)
+        {
+            query = "S_READY:" + client.nickName;
+            client.SendData(query);
+            sent = true;
+            query = null;
+        }
 
-        //string toExecute = client.ReceiveData();
-        //if (toExecute != null)
-        //{
-        //    string[] isValidCommand = toExecute.Split(':');
+        string toExecute = client.ReceiveData();
+        if (toExecute != null)
+        {
+            string[] isValidCommand = toExecute.Split(':');
 
-        //    if (opcodesPtr.ContainsKey(isValidCommand[0]))
-        //    {
-        //        opcodesPtr[isValidCommand[0]](isValidCommand);
-        //    }
-        //    toExecute = null;
-        //}
+            if (opcodesPtr.ContainsKey(isValidCommand[0]))
+            {
+                opcodesPtr[isValidCommand[0]](isValidCommand);
+            }
+            toExecute = null;
+        }
 
-        //if (ready)
-        //{
+        if (ready)
+        {
             //
             // TODO: Call this method after the countdown when the race start.
             StartMusic();
@@ -109,15 +109,15 @@ public class player : MonoBehaviour
                 player_body.AddForce(vMouvementVector);
                 player_body.MoveRotation(camera.rotation);
 
-            //query = "S_MOVEMENT:" + client.nickName + ':';
-            //query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-            //client.SendData(query);
-            //query = null;
-            }
-        //if (showCountdown.activeSelf)
-        //    showCountdown.SetActive(false);
-        //}
+            query = "S_MOVEMENT:" + client.nickName + ':';
+            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+            client.SendData(query);
+            query = null;
+        }
+        if (showCountdown.activeSelf)
+            showCountdown.SetActive(false);
     }
+}
 
     private void OnCollisionEnter(Collision collision)
     {
