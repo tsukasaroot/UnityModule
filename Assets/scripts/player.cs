@@ -121,7 +121,7 @@ public class player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "DeathZone")
+        if (collision.collider.tag == "DeathZone" || collision.collider.name.Contains("TunnelEnding"))
         {
             transform.position = m_vLastCheckPointPosition;
             transform.rotation = m_qOriginalRotation;
@@ -141,7 +141,6 @@ public class player : MonoBehaviour
         } else if (other.tag == "Trophy") {
             if (!m_trophySoundEffect.isPlaying)
             {
-                Debug.Log("K i play the sound");
                 m_trophySoundEffect.Play();
             }
             other.gameObject.SetActive(false);
