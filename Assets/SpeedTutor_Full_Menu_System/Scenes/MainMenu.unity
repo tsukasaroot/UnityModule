@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 131886374}
   - component: {fileID: 131886373}
   m_Layer: 0
-  m_Name: NewGameDialog_NoButton (2)
+  m_Name: backButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1085,6 +1085,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1139256334258350, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_Name
+      value: CityRace
+      objectReference: {fileID: 0}
     - target: {fileID: 1181362766895746, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1097,13 +1101,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1787051164414624, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
+      propertyPath: m_Name
+      value: SpaceRace
+      objectReference: {fileID: 0}
     - target: {fileID: 1821750048295998, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1889607586039040, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4632753293960446, guid: ed022c6eaaa372f498c83d69665e2adc, type: 3}
       propertyPath: m_RootOrder
@@ -1150,7 +1158,7 @@ PrefabInstance:
     - target: {fileID: 114666141393104992, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
       propertyPath: m_Text
-      value: Undefined
+      value: Space
       objectReference: {fileID: 0}
     - target: {fileID: 114754865640368622, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
@@ -1261,7 +1269,7 @@ PrefabInstance:
     - target: {fileID: 114941374491579140, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Undefined
+      value: SpaceRace
       objectReference: {fileID: 0}
     - target: {fileID: 223184025847054160, guid: ed022c6eaaa372f498c83d69665e2adc,
         type: 3}
@@ -1605,7 +1613,7 @@ GameObject:
   - component: {fileID: 472963293}
   - component: {fileID: 472963292}
   m_Layer: 0
-  m_Name: NewGameDialog_NoButton (1)
+  m_Name: DesertRace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1709,7 +1717,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Undefined
+          m_StringArgument: DesertRace
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1680703043}
@@ -1755,7 +1763,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Undefined
+  m_Text: Desert
 --- !u!222 &472963295
 CanvasRenderer:
   m_ObjectHideFlags: 0

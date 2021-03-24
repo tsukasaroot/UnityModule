@@ -432,9 +432,21 @@ namespace SpeedTutorMainMenuSystem
 
         public void ClickNewGameDialog(string ButtonType)
         {
-            if (ButtonType == "CityRace")
+            if (isHost)
             {
-                if (isHost)
+                if (ButtonType == "CityRace")
+                {
+                    string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
+                    client.SendData(query);
+                }
+                
+                if (ButtonType == "SpaceRace")
+                {
+                    string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
+                    client.SendData(query);
+                }
+
+                if (ButtonType == "DesertRace")
                 {
                     string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
                     client.SendData(query);
