@@ -155,6 +155,11 @@ public class player : MonoBehaviour
             other.gameObject.SetActive(false);
             trophyNumber++;
         }
+
+        if (other.tag == "END")
+        {
+            Debug.Log("end");
+        }
     }
 
     private void OnTriggerExit(Collider other)

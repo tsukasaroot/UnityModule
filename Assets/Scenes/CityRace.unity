@@ -52596,7 +52596,7 @@ PrefabInstance:
     - target: {fileID: 6625902051734112382, guid: 45611b0a8fde23b46ad3318402fc04e2,
         type: 3}
       propertyPath: interpolationPeriod
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45611b0a8fde23b46ad3318402fc04e2, type: 3}
@@ -82314,6 +82314,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8047117811477323566, guid: 627b6d9dc0dde134eb2b79640e63d666,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047117811477323570, guid: 627b6d9dc0dde134eb2b79640e63d666,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8047117812354188096, guid: 627b6d9dc0dde134eb2b79640e63d666,
         type: 3}
       propertyPath: m_Name
