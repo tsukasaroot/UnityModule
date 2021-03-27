@@ -31,6 +31,7 @@ public class player : MonoBehaviour
     private Transform player_body_transform;
     private bool ready = false;
     private bool sent = false;
+    private bool end = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
     private float time = 0.0f;
     public float interpolationPeriod;
@@ -99,7 +100,7 @@ public class player : MonoBehaviour
             toExecute = null;
         }
 
-        if (ready)
+        if (ready && !end)
         {
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
@@ -130,7 +131,7 @@ public class player : MonoBehaviour
 
     void FixedUpdate()
     {
-        string query;
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -142,6 +143,14 @@ public class player : MonoBehaviour
             camera.position = m_vOriginalCameraPosition;
             camera.rotation = m_qOriginalCameraRotation;
             player_body_rb.velocity = Vector3.zero;
+        }
+        if (collision.collider.tag == "END" && !end)
+        {
+            Debug.Log("end");
+            string query;
+            query = "S_RACE_END:" + client.nickName;
+            client.SendData(query);
+            end = true;
         }
     }
 
@@ -163,6 +172,7 @@ public class player : MonoBehaviour
 
         if (other.tag == "END")
         {
+            end = true;
             Debug.Log("end");
         }
     }
