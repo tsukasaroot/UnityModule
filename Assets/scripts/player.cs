@@ -16,6 +16,8 @@ public class player : MonoBehaviour
     public Rigidbody player_body;
     public float m_fAcceleratorSpeed;
     public GameObject otherPlayer;
+    public GameObject showTimer;
+    public Text writeTimer;
 
     /*
      *  Public variables for network timer
@@ -146,7 +148,6 @@ public class player : MonoBehaviour
         }
         if (collision.collider.tag == "END" && !end)
         {
-            Debug.Log("end");
             string query;
             query = "S_RACE_END:" + client.nickName;
             client.SendData(query);
@@ -209,12 +210,22 @@ public class player : MonoBehaviour
         otherPlayer.transform.position = new Vector3(x, y, z);
     }
 
+    private void getTimer(string[] chainList)
+    {
+        float time = float.Parse(chainList[1]);
+        if (time > 60)
+            time = time / 60;
+        showTimer.SetActive(true);
+        writeTimer.text += time.ToString();
+    }
+
     private void initializeOpcodes()
     {
         opcodesPtr = new Dictionary<string, Action<string[]>>();
         opcodesPtr["C_COUNTDOWN_START"] = countDown;
         opcodesPtr["C_START"] = startRace;
         opcodesPtr["C_PLAYER_MOVEMENT"] = manageSecondPlayerMovement;
+        opcodesPtr["C_TIME"] = getTimer;
     }
 
     private void StartMusic()
