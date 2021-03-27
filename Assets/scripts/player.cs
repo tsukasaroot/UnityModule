@@ -33,7 +33,7 @@ public class player : MonoBehaviour
     private bool sent = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
     private float time = 0.0f;
-    public float interpolationPeriod = 0.1f;
+    public float interpolationPeriod;
 
     /*
      *  Respawn variables. 
@@ -113,19 +113,24 @@ public class player : MonoBehaviour
             }
             if (showCountdown.activeSelf)
                 showCountdown.SetActive(false);
-
-            time += Time.deltaTime;
-
-            if (time >= interpolationPeriod)
-            {
-                time = time - interpolationPeriod;
-
-                query = "S_MOVEMENT:" + client.nickName + ':';
-                query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-                client.SendData(query);
-                query = null;
-            }
         }
+
+        time += Time.deltaTime;
+
+        if (time >= interpolationPeriod)
+        {
+            time = time - interpolationPeriod;
+
+            query = "S_MOVEMENT:" + client.nickName + ':';
+            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+            client.SendData(query);
+            query = null;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        string query;
     }
 
     private void OnCollisionEnter(Collision collision)
