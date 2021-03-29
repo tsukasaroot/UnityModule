@@ -108,8 +108,8 @@ public class player : MonoBehaviour
 
         }
 
-            if (ready && !end)
-        {
+         if (ready && !end)
+         {
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
             {
@@ -120,11 +120,11 @@ public class player : MonoBehaviour
                 player_body.MoveRotation(camera.rotation);
 
             }
-        if (showCountdown.activeSelf)
-            showCountdown.SetActive(false);
-    }
+            if (showCountdown.activeSelf)
+                showCountdown.SetActive(false);
+         }
 
-    time += Time.deltaTime;
+        time += Time.deltaTime;
 
         if (time >= interpolationPeriod)
         {
@@ -135,11 +135,6 @@ public class player : MonoBehaviour
             client.SendData(query);
             query = null;
         }
-    }
-
-    void FixedUpdate()
-    {
-        
     }
 
     private void OnCollisionEnter(Collision collision)
