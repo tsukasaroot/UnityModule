@@ -120,11 +120,11 @@ public class player : MonoBehaviour
                 player_body.MoveRotation(camera.rotation);
 
             }
-            if (showCountdown.activeSelf)
-                showCountdown.SetActive(false);
-        }
+        if (showCountdown.activeSelf)
+            showCountdown.SetActive(false);
+    }
 
-        time += Time.deltaTime;
+    time += Time.deltaTime;
 
         if (time >= interpolationPeriod)
         {
@@ -152,12 +152,16 @@ public class player : MonoBehaviour
             camera.rotation = m_qOriginalCameraRotation;
             player_body_rb.velocity = Vector3.zero;
         }
-        if (collision.collider.tag == "END" && !end)
+        else if (collision.collider.tag == "END" && !end)
         {
             string query;
             query = "S_RACE_END:" + client.nickName;
             client.SendData(query);
             end = true;
+        }
+        else if (collision.collider.tag == "Retarder")
+        {
+            player_body_rb.velocity /= 4.0f;
         }
     }
 
