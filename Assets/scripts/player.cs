@@ -18,13 +18,15 @@ public class player : MonoBehaviour
     public GameObject otherPlayer;
     public GameObject showTimer;
     public Text writeTimer;
+    public GameObject menu;
 
     /*
      *  Public variables for network timer
      */
     public GameObject showCountdown;
     public Text countdownText;
-    
+    public float interpolationPeriod;
+
     /*
      * Private variables for network management
      */
@@ -36,7 +38,6 @@ public class player : MonoBehaviour
     private bool end = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
     private float time = 0.0f;
-    public float interpolationPeriod;
 
     /*
      *  Respawn variables. 
@@ -102,7 +103,12 @@ public class player : MonoBehaviour
             toExecute = null;
         }
 
-        if (ready && !end)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+        }
+
+            if (ready && !end)
         {
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
@@ -186,6 +192,7 @@ public class player : MonoBehaviour
         }
     }
 
+    #region Network related functions
     private void countDown(string[] chainList)
     {
         if (chainList[1] == "3")
@@ -219,6 +226,11 @@ public class player : MonoBehaviour
         writeTimer.text += time.ToString();
     }
 
+    private void leave(string[] chainList)
+    {
+        SceneManager.LoadScene(chainList[1]);
+    }
+
     private void initializeOpcodes()
     {
         opcodesPtr = new Dictionary<string, Action<string[]>>();
@@ -226,7 +238,9 @@ public class player : MonoBehaviour
         opcodesPtr["C_START"] = startRace;
         opcodesPtr["C_PLAYER_MOVEMENT"] = manageSecondPlayerMovement;
         opcodesPtr["C_TIME"] = getTimer;
+        opcodesPtr["C_LEAVE"] = leave;
     }
+    #endregion
 
     private void StartMusic()
     {
@@ -235,4 +249,11 @@ public class player : MonoBehaviour
             m_backgroundMusic.Play();
         }
     }
+
+    #region Menu
+    public void ClickLeaveRace(string ButtonType)
+    {
+
+    }
+    #endregion
 }

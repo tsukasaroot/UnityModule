@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4724049709616743133}
   - component: {fileID: 4724049709616743122}
   - component: {fileID: 3500591357367177672}
-  - component: {fileID: 6625902051734112382}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Player
@@ -111,26 +110,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6625902051734112382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4724049709616743126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de2229fa9e38d848a861197b92783f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  camera: {fileID: 4724049710427161526}
-  player_body: {fileID: 3500591357367177672}
-  m_fAcceleratorSpeed: 35
-  showCountdown: {fileID: 0}
-  countdownText: {fileID: 0}
-  m_backgroundMusic: {fileID: 7106112896578224381}
-  m_trophySoundEffect: {fileID: 1169335638962685615}
 --- !u!1 &4724049710427161525
 GameObject:
   m_ObjectHideFlags: 0
