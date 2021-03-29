@@ -9,6 +9,7 @@ TagManager:
   - END
   - Accelerator
   - Trophy
+  - Retarder
   layers:
   - Default
   - TransparentFX
