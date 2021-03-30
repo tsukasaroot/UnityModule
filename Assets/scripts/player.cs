@@ -77,8 +77,6 @@ public class player : MonoBehaviour
         Cursor.visible = false;
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
-
-        Debug.Log(client.connected);
     }
 
     // Update is called once per frame

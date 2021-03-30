@@ -15,6 +15,7 @@ namespace SpeedTutorMainMenuSystem
         Dictionary<string, Action<string[]>> opcodesPtr;
 
         static public bool called;
+        static private bool connected = false;
 
         #region Default Values
         [Header("Default Menu Values")]
@@ -92,9 +93,9 @@ namespace SpeedTutorMainMenuSystem
                 Destroy(client);
             }
 
-            Debug.Log(client.connected);
+            Debug.Log(connected);
 
-            if (client.connected)
+            if (connected)
             {
                 client.sent = true;
                 connectionState.text = "Connected";
@@ -114,7 +115,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void Update()
         {
-            if (!client.connected && !client.sent)
+            if (!connected && !client.sent)
             {
                 string query = "S_LOGIN:";
                 query += client.nickName + ':' + client.pass;
@@ -134,7 +135,7 @@ namespace SpeedTutorMainMenuSystem
                 toExecute = null;
             }
 
-            if (client.connected)
+            if (connected)
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
@@ -181,7 +182,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void login(string[] chainList)
         {
-            client.connected = true;
+            connected = true;
             connectionState.text = "Connected";
         }
 
@@ -272,7 +273,7 @@ namespace SpeedTutorMainMenuSystem
         #region Menu Mouse Clicks
         public void MouseClick(string buttonType)
         {
-            if (client.connected)
+            if (connected)
             {
                 if (buttonType == "Controls")
                 {
