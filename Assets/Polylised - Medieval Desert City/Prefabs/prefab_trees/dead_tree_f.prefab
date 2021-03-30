@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4048299260256856}
   - component: {fileID: 33116202760086104}
   - component: {fileID: 23814186701353248}
+  - component: {fileID: 4827157728044693625}
+  - component: {fileID: 2348423306854627510}
   m_Layer: 0
   m_Name: dead_tree_f
   m_TagString: Untagged
@@ -79,3 +81,29 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &4827157728044693625
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939841420551160}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.6036525, y: 4.4600587, z: 9.4303}
+  m_Center: {x: 0.0049808025, y: -0.3764379, z: 6.443907}
+--- !u!65 &2348423306854627510
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939841420551160}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2316339, y: 1.122317, z: 1.8270607}
+  m_Center: {x: 0.19866121, y: -0.4386602, z: 0.9135926}
