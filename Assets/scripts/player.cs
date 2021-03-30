@@ -77,6 +77,8 @@ public class player : MonoBehaviour
         Cursor.visible = false;
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
+
+        Debug.Log(client.connected);
     }
 
     // Update is called once per frame
@@ -103,12 +105,12 @@ public class player : MonoBehaviour
             toExecute = null;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (ready && Input.GetKeyDown(KeyCode.Escape))
         {
-
+            menu.SetActive(true);
         }
 
-         if (ready && !end)
+        if (ready && !end)
          {
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
@@ -122,7 +124,7 @@ public class player : MonoBehaviour
             }
             if (showCountdown.activeSelf)
                 showCountdown.SetActive(false);
-         }
+        }
 
         time += Time.deltaTime;
 
@@ -252,7 +254,16 @@ public class player : MonoBehaviour
     #region Menu
     public void ClickLeaveRace(string ButtonType)
     {
-
+        if (ButtonType == "No")
+        {
+            menu.SetActive(false);
+        }
+        if (ButtonType == "Yes")
+        {
+            string query;
+            query = "S_LEAVE_RACE:" + client.nickName + ':' + "MainMenu";
+            client.SendData(query);
+        }
     }
     #endregion
 }

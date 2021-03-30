@@ -15,7 +15,7 @@ public class UDPClient : MonoBehaviour
 
     public IPEndPoint ipep;
 
-    public UdpClient Client;
+    static public UdpClient Client;
 
     public Thread networkThread;
 
@@ -23,8 +23,12 @@ public class UDPClient : MonoBehaviour
     private string dataString;
     public string nickName;
     public string pass;
-    public string secondPlayer;
+    public string secondPlayer = null;
     public int room;
+    public bool connected = false;
+    public bool sent = false;
+    public bool isHost = false;
+
 
     void Start()
     {

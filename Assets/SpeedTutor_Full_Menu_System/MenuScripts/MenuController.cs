@@ -13,11 +13,8 @@ namespace SpeedTutorMainMenuSystem
         public UDPClient UDPclient;
         private UDPClient client;
         Dictionary<string, Action<string[]>> opcodesPtr;
-        private bool connected = false;
-        private bool sent = false;
-        private string secondPlayer = null;
-        private int room;
-        private bool isHost = false;
+
+        static public bool called;
 
         #region Default Values
         [Header("Default Menu Values")]
@@ -78,18 +75,32 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] private Toggle invertYToggle;
         #endregion
 
-        private void Awake()
-        {
-            
-        }
-
         #region Initialisation - Button Selection & Menu Order
         private void Start()
         {
             menuNumber = 1;
+
             client = Instantiate(UDPclient);
+            if (!called)
+            {
+                DontDestroyOnLoad(UDPclient);
+                DontDestroyOnLoad(client);
+                called = true;
+            }
+            else
+            {
+                Destroy(client);
+            }
+
+            Debug.Log(client.connected);
+
+            if (client.connected)
+            {
+                client.sent = true;
+                connectionState.text = "Connected";
+            }
             initializeOpcodes();
-            DontDestroyOnLoad(client);
+
         }
         #endregion
 
@@ -103,15 +114,15 @@ namespace SpeedTutorMainMenuSystem
 
         private void Update()
         {
-            if (!connected && !sent)
+            if (!client.connected && !client.sent)
             {
                 string query = "S_LOGIN:";
                 query += client.nickName + ':' + client.pass;
                 client.SendData(query);
-                sent = true;
+                client.sent = true;
             }
 
-            string toExecute = this.client.ReceiveData();
+            string toExecute = client.ReceiveData();
             if (toExecute != null)
             {
                 string[] isValidCommand = toExecute.Split(':');
@@ -123,7 +134,7 @@ namespace SpeedTutorMainMenuSystem
                 toExecute = null;
             }
 
-            if (this.connected)
+            if (client.connected)
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
@@ -156,7 +167,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void SendInvite()
         {
-            if (room > 0)
+            if (client.room > 0)
             {
                 garbagePopup.SetActive(true);
                 garbagePopupText.text = "Already in party";
@@ -170,7 +181,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void login(string[] chainList)
         {
-            this.connected = true;
+            client.connected = true;
             connectionState.text = "Connected";
         }
 
@@ -178,7 +189,7 @@ namespace SpeedTutorMainMenuSystem
         {
             string guest = chainList[1];
             string answer = chainList[2];
-            isHost = true;
+            client.isHost = true;
 
             if (answer == "undefined")
             {
@@ -194,7 +205,7 @@ namespace SpeedTutorMainMenuSystem
 
             if (answer == "Accepted")
             {
-                if (isHost)
+                if (client.isHost)
                 {
                     playerList.text = "Host : " + client.nickName + '\n';
                 }
@@ -202,7 +213,6 @@ namespace SpeedTutorMainMenuSystem
                 leaveRoom.SetActive(true);
                 inviteController.SetActive(false);
                 client.secondPlayer = guest;
-                client.room = room;
             }
         }
 
@@ -214,8 +224,8 @@ namespace SpeedTutorMainMenuSystem
 
             if (chainList[1] != "undefined")
             {
-                secondPlayer = chainList[1];
-                room = chainList[2];
+                client.secondPlayer = chainList[1];
+                client.room = Int32.Parse(room);
                 receivedInvitation.SetActive(true);
                 inviteController.SetActive(false);
             } 
@@ -228,9 +238,8 @@ namespace SpeedTutorMainMenuSystem
 
         private void defineRoom(string[] chainList)
         {
-            room = Int32.Parse(chainList[1]);
-            client.room = room;
-            if (room == 0)
+            client.room = Int32.Parse(chainList[1]);
+            if (client.room == 0)
             {
                 playerList.text = "";
                 leaveRoom.SetActive(false);
@@ -263,7 +272,7 @@ namespace SpeedTutorMainMenuSystem
         #region Menu Mouse Clicks
         public void MouseClick(string buttonType)
         {
-            if (this.connected)
+            if (client.connected)
             {
                 if (buttonType == "Controls")
                 {
@@ -432,7 +441,7 @@ namespace SpeedTutorMainMenuSystem
 
         public void ClickNewGameDialog(string ButtonType)
         {
-            if (isHost)
+            if (client.isHost)
             {
                 if (ButtonType == "CityRace")
                 {
@@ -471,23 +480,22 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":true";
+                string query = "S_JOINROOM:" + client.secondPlayer + ':' + client.nickName + ":true";
                 client.SendData(query);
                 receivedInvitation.SetActive(false);
                 // Hide PLAY button because not host of the room
-                playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
+                playerList.text = "Host : " + client.secondPlayer + '\n' + "Guest : " + client.nickName;
                 leaveRoom.SetActive(true);
                 playButton.SetActive(false);
-                client.secondPlayer = secondPlayer;
             }
 
             if (ButtonType == "No")
             {
                 receivedInvitation.SetActive(false);
-                string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":false";
+                string query = "S_JOINROOM:" + client.secondPlayer + ':' + client.nickName + ":false";
                 client.SendData(query);
-                secondPlayer = null;
-                room = 0;
+                client.secondPlayer = null;
+                client.room = 0;
                 inviteController.SetActive(true);
             }
         }

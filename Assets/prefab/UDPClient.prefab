@@ -47,3 +47,8 @@ MonoBehaviour:
   port: 16384
   nickName: islan
   pass: puissant
+  secondPlayer: 
+  room: 0
+  connected: 0
+  sent: 0
+  isHost: 0
