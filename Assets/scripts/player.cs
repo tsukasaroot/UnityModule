@@ -137,6 +137,11 @@ public class player : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        Cursor.visible = true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "DeathZone" || collision.collider.name.Contains("TunnelEnding"))
