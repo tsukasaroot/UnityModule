@@ -106,6 +106,7 @@ public class player : MonoBehaviour
         if (ready && Input.GetKeyDown(KeyCode.Escape))
         {
             menu.SetActive(true);
+            Cursor.visible = true;
         }
 
         if (ready && !end)
@@ -255,6 +256,7 @@ public class player : MonoBehaviour
         if (ButtonType == "No")
         {
             menu.SetActive(false);
+            Cursor.visible = false;
         }
         if (ButtonType == "Yes")
         {

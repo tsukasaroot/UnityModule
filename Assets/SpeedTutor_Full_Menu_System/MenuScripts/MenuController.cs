@@ -16,6 +16,11 @@ namespace SpeedTutorMainMenuSystem
 
         static public bool called;
         static private bool connected = false;
+        static private string secondPlayer = null;
+        static private int room;
+        static private bool sent = false;
+        static private bool isHost = false;
+        static private string nickName;
 
         #region Default Values
         [Header("Default Menu Values")]
@@ -90,14 +95,14 @@ namespace SpeedTutorMainMenuSystem
             }
             else
             {
+                client.nickName = nickName;
+                Cursor.visible = true;
                 Destroy(client);
             }
 
-            Debug.Log(connected);
-
             if (connected)
             {
-                client.sent = true;
+                sent = true;
                 connectionState.text = "Connected";
             }
             initializeOpcodes();
@@ -115,12 +120,12 @@ namespace SpeedTutorMainMenuSystem
 
         private void Update()
         {
-            if (!connected && !client.sent)
+            if (!connected && !sent)
             {
                 string query = "S_LOGIN:";
                 query += client.nickName + ':' + client.pass;
                 client.SendData(query);
-                client.sent = true;
+                sent = true;
             }
 
             string toExecute = client.ReceiveData();
@@ -168,7 +173,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void SendInvite()
         {
-            if (client.room > 0)
+            if (room > 0)
             {
                 garbagePopup.SetActive(true);
                 garbagePopupText.text = "Already in party";
@@ -178,19 +183,21 @@ namespace SpeedTutorMainMenuSystem
             string query = "S_SENDROOM_INVITATION:";
             query += client.nickName + ':' + guestToInvite;
             client.SendData(query);
+            Debug.Log(query);
         }
 
         private void login(string[] chainList)
         {
             connected = true;
             connectionState.text = "Connected";
+            nickName = client.nickName;
         }
 
         private void responseInvitation(string[] chainList)
         {
             string guest = chainList[1];
             string answer = chainList[2];
-            client.isHost = true;
+            isHost = true;
 
             if (answer == "undefined")
             {
@@ -206,27 +213,27 @@ namespace SpeedTutorMainMenuSystem
 
             if (answer == "Accepted")
             {
-                if (client.isHost)
+                if (isHost)
                 {
                     playerList.text = "Host : " + client.nickName + '\n';
                 }
                 playerList.text += "Guest : " + guest;
                 leaveRoom.SetActive(true);
                 inviteController.SetActive(false);
-                client.secondPlayer = guest;
+                secondPlayer = guest;
             }
         }
 
         private void receiveInvitation(string[] chainList)
         {
             string host = chainList[1];
-            string room = chainList[2];
+            string roomS = chainList[2];
             Top.text = chainList[1] + " for room " + chainList[2];
 
             if (chainList[1] != "undefined")
             {
-                client.secondPlayer = chainList[1];
-                client.room = Int32.Parse(room);
+                secondPlayer = chainList[1];
+                room = Int32.Parse(roomS);
                 receivedInvitation.SetActive(true);
                 inviteController.SetActive(false);
             } 
@@ -239,8 +246,8 @@ namespace SpeedTutorMainMenuSystem
 
         private void defineRoom(string[] chainList)
         {
-            client.room = Int32.Parse(chainList[1]);
-            if (client.room == 0)
+            room = Int32.Parse(chainList[1]);
+            if (room == 0)
             {
                 playerList.text = "";
                 leaveRoom.SetActive(false);
@@ -442,7 +449,7 @@ namespace SpeedTutorMainMenuSystem
 
         public void ClickNewGameDialog(string ButtonType)
         {
-            if (client.isHost)
+            if (isHost)
             {
                 if (ButtonType == "CityRace")
                 {
@@ -481,11 +488,11 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                string query = "S_JOINROOM:" + client.secondPlayer + ':' + client.nickName + ":true";
+                string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":true";
                 client.SendData(query);
                 receivedInvitation.SetActive(false);
                 // Hide PLAY button because not host of the room
-                playerList.text = "Host : " + client.secondPlayer + '\n' + "Guest : " + client.nickName;
+                playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
                 leaveRoom.SetActive(true);
                 playButton.SetActive(false);
             }
@@ -493,10 +500,10 @@ namespace SpeedTutorMainMenuSystem
             if (ButtonType == "No")
             {
                 receivedInvitation.SetActive(false);
-                string query = "S_JOINROOM:" + client.secondPlayer + ':' + client.nickName + ":false";
+                string query = "S_JOINROOM:" + secondPlayer + ':' + client.nickName + ":false";
                 client.SendData(query);
-                client.secondPlayer = null;
-                client.room = 0;
+                secondPlayer = null;
+                room = 0;
                 inviteController.SetActive(true);
             }
         }
