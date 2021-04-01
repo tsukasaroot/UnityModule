@@ -183,7 +183,6 @@ namespace SpeedTutorMainMenuSystem
             string query = "S_SENDROOM_INVITATION:";
             query += client.nickName + ':' + guestToInvite;
             client.SendData(query);
-            Debug.Log(query);
         }
 
         private void login(string[] chainList)
