@@ -33,6 +33,8 @@ namespace SpeedTutorMainMenuSystem
         [SerializeField] public Text garbagePopupText;
         [SerializeField] TextMeshProUGUI playerList;
         [SerializeField] public Text connectionState;
+        [SerializeField] public Text displayNickname;
+        [SerializeField] public GameObject displayNick;
 
         [Header("Levels To Load")]
         public string _newGameButtonLevel;
@@ -104,6 +106,8 @@ namespace SpeedTutorMainMenuSystem
             {
                 sent = true;
                 connectionState.text = "Connected";
+                displayNickname.text = nickName;
+                displayNick.SetActive(true);
             }
             initializeOpcodes();
 
@@ -190,6 +194,8 @@ namespace SpeedTutorMainMenuSystem
             connected = true;
             connectionState.text = "Connected";
             nickName = client.nickName;
+            displayNickname.text = nickName;
+            displayNick.SetActive(true);
         }
 
         private void responseInvitation(string[] chainList)
@@ -219,6 +225,7 @@ namespace SpeedTutorMainMenuSystem
                 playerList.text += "Guest : " + guest;
                 leaveRoom.SetActive(true);
                 inviteController.SetActive(false);
+                displayNick.SetActive(false);
                 secondPlayer = guest;
             }
         }
@@ -235,6 +242,7 @@ namespace SpeedTutorMainMenuSystem
                 room = Int32.Parse(roomS);
                 receivedInvitation.SetActive(true);
                 inviteController.SetActive(false);
+                displayNick.SetActive(false);
             } 
             else
             {
