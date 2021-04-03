@@ -38,6 +38,7 @@ public class player : MonoBehaviour
     private bool end = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
     private float time = 0.0f;
+    private Scene scene;
 
     /*
      *  Respawn variables. 
@@ -77,6 +78,7 @@ public class player : MonoBehaviour
         Cursor.visible = false;
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
+        scene = SceneManager.GetActiveScene();
     }
 
     // Update is called once per frame
@@ -156,7 +158,7 @@ public class player : MonoBehaviour
         else if (collision.collider.tag == "END" && !end)
         {
             string query;
-            query = "S_RACE_END:" + client.nickName;
+            query = "S_RACE_END:" + client.nickName + ':' + scene.name;
             client.SendData(query);
             end = true;
         }
@@ -180,12 +182,6 @@ public class player : MonoBehaviour
             }
             other.gameObject.SetActive(false);
             trophyNumber++;
-        }
-
-        if (other.tag == "END")
-        {
-            end = true;
-            Debug.Log("end");
         }
     }
 
