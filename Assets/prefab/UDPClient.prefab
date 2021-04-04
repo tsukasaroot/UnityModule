@@ -43,7 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac63a3b8cb185a4fb3fa76eb8c243cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipToListen: 51.38.50.187
+  ipToListen: 51.210.41.122
   port: 16384
-  nickName: islan
-  pass: puissant
+  nickName: 
+  pass: 
+  room: 0
+  isHost: 0

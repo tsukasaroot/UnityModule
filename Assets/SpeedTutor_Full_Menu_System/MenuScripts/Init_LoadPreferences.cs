@@ -35,7 +35,7 @@ namespace SpeedTutorMainMenuSystem
 
         private void Awake()
         {
-            Debug.Log("Loading player prefs test");
+            //Debug.Log("Loading player prefs test");
 
             if (canUse)
             {

@@ -15,13 +15,18 @@ public class player : MonoBehaviour
     public Transform camera;
     public Rigidbody player_body;
     public float m_fAcceleratorSpeed;
+    public GameObject otherPlayer;
+    public GameObject showTimer;
+    public Text writeTimer;
+    public GameObject menu;
 
     /*
      *  Public variables for network timer
      */
     public GameObject showCountdown;
     public Text countdownText;
-    
+    public float interpolationPeriod;
+
     /*
      * Private variables for network management
      */
@@ -30,7 +35,10 @@ public class player : MonoBehaviour
     private Transform player_body_transform;
     private bool ready = false;
     private bool sent = false;
+    private bool end = false;
     Dictionary<string, Action<string[]>> opcodesPtr;
+    private float time = 0.0f;
+    private Scene scene;
 
     /*
      *  Respawn variables. 
@@ -41,12 +49,17 @@ public class player : MonoBehaviour
     private Quaternion m_qOriginalCameraRotation;
     private Vector3 m_vLastCheckPointPosition;
 
+    /*
+     * Status variables
+     */
     private bool bIsOnAccelerator = false;
+    private short trophyNumber = 0;
 
     /*
      *  Music and sound effect variables
      */
     public AudioSource m_backgroundMusic;
+    public AudioSource m_trophySoundEffect;
 
     private void Awake()
     {
@@ -65,6 +78,13 @@ public class player : MonoBehaviour
         Cursor.visible = false;
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
+        scene = SceneManager.GetActiveScene();
+
+        if (!client.isHost)
+        {
+            ready = !ready;
+            sent = !sent;
+        }
     }
 
     // Update is called once per frame
@@ -91,10 +111,14 @@ public class player : MonoBehaviour
             toExecute = null;
         }
 
-        if (ready)
+        if (ready && Input.GetKeyDown(KeyCode.Escape))
         {
-            //
-            // TODO: Call this method after the countdown when the race start.
+            menu.SetActive(true);
+            Cursor.visible = true;
+        }
+
+        if (ready && !end)
+         {
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
             {
@@ -104,25 +128,49 @@ public class player : MonoBehaviour
                 player_body.AddForce(vMouvementVector);
                 player_body.MoveRotation(camera.rotation);
 
-                query = "S_MOVEMENT:" + client.nickName + ':';
-                query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
-                client.SendData(query);
-                query = null;
             }
             if (showCountdown.activeSelf)
                 showCountdown.SetActive(false);
         }
+
+        time += Time.deltaTime;
+
+        if (time >= interpolationPeriod && client.isHost)
+        {
+            time = time - interpolationPeriod;
+
+            query = "S_MOVEMENT:" + client.nickName + ':';
+            query += transform.position.x.ToString() + ':' + transform.position.y.ToString() + ':' + transform.position.z.ToString();
+            client.SendData(query);
+            query = null;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Cursor.visible = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "DeathZone")
+        if (collision.collider.tag == "DeathZone" || collision.collider.name.Contains("TunnelEnding"))
         {
             transform.position = m_vLastCheckPointPosition;
             transform.rotation = m_qOriginalRotation;
             camera.position = m_vOriginalCameraPosition;
             camera.rotation = m_qOriginalCameraRotation;
             player_body_rb.velocity = Vector3.zero;
+        }
+        else if (collision.collider.tag == "END" && !end && client.isHost)
+        {
+            string query;
+            query = "S_RACE_END:" + client.nickName + ':' + scene.name;
+            client.SendData(query);
+            end = true;
+        }
+        else if (collision.collider.tag == "Retarder")
+        {
+            player_body_rb.velocity /= 4.0f;
         }
     }
 
@@ -133,6 +181,13 @@ public class player : MonoBehaviour
             m_vLastCheckPointPosition = other.gameObject.transform.position;
         } else if (other.tag == "Accelerator") {
             bIsOnAccelerator = true;
+        } else if (other.tag == "Trophy") {
+            if (!m_trophySoundEffect.isPlaying)
+            {
+                m_trophySoundEffect.Play();
+            }
+            other.gameObject.SetActive(false);
+            trophyNumber++;
         }
     }
 
@@ -144,6 +199,7 @@ public class player : MonoBehaviour
         }
     }
 
+    #region Network related functions
     private void countDown(string[] chainList)
     {
         if (chainList[1] == "3")
@@ -155,13 +211,31 @@ public class player : MonoBehaviour
     {
         // When countDown is at 1, next packet server send is a C_START, so both player will have movements unlocked
         ready = true;
+        sent = false;
         countdownText.text = "GO!";
     }
 
     private void manageSecondPlayerMovement(string[] chainList)
     {
-        // Here we move the second player
+        float x = float.Parse(chainList[1]);
+        float y = float.Parse(chainList[2]);
+        float z = float.Parse(chainList[3]);
 
+        otherPlayer.transform.position = new Vector3(x, y, z);
+    }
+
+    private void getTimer(string[] chainList)
+    {
+        float time = float.Parse(chainList[1]);
+        if (time > 60)
+            time = time / 60;
+        showTimer.SetActive(true);
+        writeTimer.text += time.ToString();
+    }
+
+    private void leave(string[] chainList)
+    {
+        SceneManager.LoadScene(chainList[1]);
     }
 
     private void initializeOpcodes()
@@ -170,7 +244,10 @@ public class player : MonoBehaviour
         opcodesPtr["C_COUNTDOWN_START"] = countDown;
         opcodesPtr["C_START"] = startRace;
         opcodesPtr["C_PLAYER_MOVEMENT"] = manageSecondPlayerMovement;
+        opcodesPtr["C_TIME"] = getTimer;
+        opcodesPtr["C_LEAVE"] = leave;
     }
+    #endregion
 
     private void StartMusic()
     {
@@ -179,4 +256,28 @@ public class player : MonoBehaviour
             m_backgroundMusic.Play();
         }
     }
+
+    #region Menu
+    public void ClickLeaveRace(string ButtonType)
+    {
+        if (ButtonType == "No")
+        {
+            menu.SetActive(false);
+            Cursor.visible = false;
+        }
+        if (ButtonType == "Yes")
+        {
+            if (client.isHost)
+            {
+                string query;
+                query = "S_LEAVE_RACE:" + client.nickName + ':' + "MainMenu";
+                client.SendData(query);
+            }
+            else
+            {
+                SceneManager.LoadScene("mainMenu");
+            }
+        }
+    }
+    #endregion
 }
