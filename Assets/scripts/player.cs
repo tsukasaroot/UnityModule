@@ -79,6 +79,12 @@ public class player : MonoBehaviour
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
         scene = SceneManager.GetActiveScene();
+
+        if (!client.isHost)
+        {
+            ready = !ready;
+            sent = !sent;
+        }
     }
 
     // Update is called once per frame
@@ -129,7 +135,7 @@ public class player : MonoBehaviour
 
         time += Time.deltaTime;
 
-        if (time >= interpolationPeriod)
+        if (time >= interpolationPeriod && client.isHost)
         {
             time = time - interpolationPeriod;
 
@@ -155,7 +161,7 @@ public class player : MonoBehaviour
             camera.rotation = m_qOriginalCameraRotation;
             player_body_rb.velocity = Vector3.zero;
         }
-        else if (collision.collider.tag == "END" && !end)
+        else if (collision.collider.tag == "END" && !end && client.isHost)
         {
             string query;
             query = "S_RACE_END:" + client.nickName + ':' + scene.name;
@@ -261,9 +267,16 @@ public class player : MonoBehaviour
         }
         if (ButtonType == "Yes")
         {
-            string query;
-            query = "S_LEAVE_RACE:" + client.nickName + ':' + "MainMenu";
-            client.SendData(query);
+            if (client.isHost)
+            {
+                string query;
+                query = "S_LEAVE_RACE:" + client.nickName + ':' + "MainMenu";
+                client.SendData(query);
+            }
+            else
+            {
+                SceneManager.LoadScene("mainMenu");
+            }
         }
     }
     #endregion

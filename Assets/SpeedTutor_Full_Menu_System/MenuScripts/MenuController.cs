@@ -100,6 +100,7 @@ namespace SpeedTutorMainMenuSystem
                 client.nickName = nickName;
                 Cursor.visible = true;
                 Destroy(client);
+                isHost = false;
             }
 
             if (connected)
@@ -202,7 +203,6 @@ namespace SpeedTutorMainMenuSystem
         {
             string guest = chainList[1];
             string answer = chainList[2];
-            isHost = true;
 
             if (answer == "undefined")
             {
@@ -227,6 +227,9 @@ namespace SpeedTutorMainMenuSystem
                 inviteController.SetActive(false);
                 displayNick.SetActive(false);
                 secondPlayer = guest;
+                client.room = 1;
+                isHost = true;
+                client.isHost = isHost;
             }
         }
 
@@ -254,6 +257,7 @@ namespace SpeedTutorMainMenuSystem
         private void defineRoom(string[] chainList)
         {
             room = Int32.Parse(chainList[1]);
+            client.room = 1;
             if (room == 0)
             {
                 playerList.text = "";
@@ -492,6 +496,7 @@ namespace SpeedTutorMainMenuSystem
                 playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
                 leaveRoom.SetActive(true);
                 playButton.SetActive(false);
+                client.room = 1;
             }
 
             if (ButtonType == "No")
