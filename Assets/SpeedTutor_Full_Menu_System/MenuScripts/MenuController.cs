@@ -458,23 +458,13 @@ namespace SpeedTutorMainMenuSystem
         {
             if (isHost)
             {
-                if (ButtonType == "CityRace")
-                {
-                    string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
-                    client.SendData(query);
-                }
-                
-                if (ButtonType == "SpaceRace")
-                {
-                    string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
-                    client.SendData(query);
-                }
+                string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
+                client.SendData(query);
+            }
 
-                if (ButtonType == "DesertRace")
-                {
-                    string query = "S_START_GAME:" + client.nickName + ":" + ButtonType;
-                    client.SendData(query);
-                }
+            if (!isHost)
+            {
+                SceneManager.LoadScene(ButtonType);
             }
 
             if (ButtonType == "Back")
