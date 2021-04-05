@@ -38,7 +38,6 @@ namespace SpeedTutorMainMenuSystem
 
         [Header("Levels To Load")]
         public string _newGameButtonLevel;
-        private string levelToLoad;
 
         private int menuNumber;
         #endregion
@@ -218,16 +217,13 @@ namespace SpeedTutorMainMenuSystem
 
             if (answer == "Accepted")
             {
-                if (isHost)
-                {
-                    playerList.text = "Host : " + client.nickName + '\n';
-                }
+                isHost = true;
+                playerList.text = "Host : " + client.nickName + '\n';
                 playerList.text += "Guest : " + guest;
                 leaveRoom.SetActive(true);
                 inviteController.SetActive(false);
                 displayNick.SetActive(false);
                 secondPlayer = guest;
-                isHost = true;
             }
         }
 

@@ -47,5 +47,3 @@ MonoBehaviour:
   port: 16384
   nickName: 
   pass: 
-  room: 0
-  isHost: 0
