@@ -59,12 +59,17 @@ public class UDPClient : MonoBehaviour
         // pass should be already received hashed by launcher
 
 #if UNITY_EDITOR
-    nickName = "islan";
-    pass = "22ecf172ee4fa01a4dec0981e3164912";
+    nickName = "";
+    pass = "";
 #else
         nickName = args[1];
         pass = args[2];
 #endif
+        if (nickName == "" || pass == "")
+        {
+            Application.Quit();
+            Debug.Log("Yes quit");
+        }
     }
 
     public string ReceiveData()
