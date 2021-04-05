@@ -41,7 +41,7 @@ public class player : MonoBehaviour
     private Scene scene;
 
     /*
-     *  Respawn variables. 
+     *  Respawn variables.
      */
     private Vector3 m_vOriginalPosition;
     private Vector3 m_vOriginalCameraPosition;
@@ -79,12 +79,6 @@ public class player : MonoBehaviour
         client = SpeedTutorMainMenuSystem.MenuController.FindObjectOfType<UDPClient>().GetComponent<UDPClient>();
         initializeOpcodes();
         scene = SceneManager.GetActiveScene();
-
-        if (!client.isHost)
-        {
-            ready = !ready;
-            sent = !sent;
-        }
     }
 
     // Update is called once per frame
@@ -118,7 +112,7 @@ public class player : MonoBehaviour
         }
 
         if (ready && !end)
-         {
+        {
             StartMusic();
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
             {
@@ -135,7 +129,7 @@ public class player : MonoBehaviour
 
         time += Time.deltaTime;
 
-        if (time >= interpolationPeriod && client.isHost)
+        if (time >= interpolationPeriod)
         {
             time = time - interpolationPeriod;
 
@@ -161,7 +155,7 @@ public class player : MonoBehaviour
             camera.rotation = m_qOriginalCameraRotation;
             player_body_rb.velocity = Vector3.zero;
         }
-        else if (collision.collider.tag == "END" && !end && client.isHost)
+        else if (collision.collider.tag == "END" && !end)
         {
             string query;
             query = "S_RACE_END:" + client.nickName + ':' + scene.name;
@@ -179,9 +173,13 @@ public class player : MonoBehaviour
         if (other.tag == "CheckPoint")
         {
             m_vLastCheckPointPosition = other.gameObject.transform.position;
-        } else if (other.tag == "Accelerator") {
+        }
+        else if (other.tag == "Accelerator")
+        {
             bIsOnAccelerator = true;
-        } else if (other.tag == "Trophy") {
+        }
+        else if (other.tag == "Trophy")
+        {
             if (!m_trophySoundEffect.isPlaying)
             {
                 m_trophySoundEffect.Play();
@@ -267,16 +265,9 @@ public class player : MonoBehaviour
         }
         if (ButtonType == "Yes")
         {
-            if (client.isHost)
-            {
-                string query;
-                query = "S_LEAVE_RACE:" + client.nickName + ':' + "MainMenu";
-                client.SendData(query);
-            }
-            else
-            {
-                SceneManager.LoadScene("mainMenu");
-            }
+            string query;
+            query = "S_LEAVE_RACE:" + client.nickName + ':' + "MainMenu";
+            client.SendData(query);
         }
     }
     #endregion

@@ -23,9 +23,6 @@ public class UDPClient : MonoBehaviour
     private string dataString;
     public string nickName;
     public string pass;
-    public int room;
-    public bool isHost;
-
 
     void Start()
     {

@@ -227,9 +227,7 @@ namespace SpeedTutorMainMenuSystem
                 inviteController.SetActive(false);
                 displayNick.SetActive(false);
                 secondPlayer = guest;
-                client.room = 1;
                 isHost = true;
-                client.isHost = isHost;
             }
         }
 
@@ -257,7 +255,6 @@ namespace SpeedTutorMainMenuSystem
         private void defineRoom(string[] chainList)
         {
             room = Int32.Parse(chainList[1]);
-            client.room = 1;
             if (room == 0)
             {
                 playerList.text = "";
@@ -466,11 +463,6 @@ namespace SpeedTutorMainMenuSystem
                 client.SendData(query);
             }
 
-            if (!isHost)
-            {
-                SceneManager.LoadScene(ButtonType);
-            }
-
             if (ButtonType == "Back")
             {
                 GoBackToMainMenu();
@@ -496,7 +488,6 @@ namespace SpeedTutorMainMenuSystem
                 playerList.text = "Host : " + secondPlayer + '\n' + "Guest : " + client.nickName;
                 leaveRoom.SetActive(true);
                 playButton.SetActive(false);
-                client.room = 1;
             }
 
             if (ButtonType == "No")
