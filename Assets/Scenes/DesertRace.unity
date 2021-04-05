@@ -1677,6 +1677,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa6a18c43a2b0a840b69d48d88e41600, type: 3}
+--- !u!114 &110386134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2812580745330438952, guid: fa6a18c43a2b0a840b69d48d88e41600,
+    type: 3}
+  m_PrefabInstance: {fileID: 110386133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de2229fa9e38d848a861197b92783f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &114580458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17239,6 +17251,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505104599955032548, guid: 627b6d9dc0dde134eb2b79640e63d666,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 110386134}
+    - target: {fileID: 505104599955032548, guid: 627b6d9dc0dde134eb2b79640e63d666,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickLeaveRace
+      objectReference: {fileID: 0}
+    - target: {fileID: 505104600979627546, guid: 627b6d9dc0dde134eb2b79640e63d666,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 110386134}
+    - target: {fileID: 505104600979627546, guid: 627b6d9dc0dde134eb2b79640e63d666,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickLeaveRace
+      objectReference: {fileID: 0}
     - target: {fileID: 603564480019503029, guid: 627b6d9dc0dde134eb2b79640e63d666,
         type: 3}
       propertyPath: m_Name
