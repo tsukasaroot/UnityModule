@@ -284,10 +284,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de2229fa9e38d848a861197b92783f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 750
   camera: {fileID: 7388007201187197080}
   player_body: {fileID: 1701465672320180966}
-  m_fAcceleratorSpeed: 35
+  m_fAcceleratorSpeed: 1250
   otherPlayer: {fileID: 0}
   showTimer: {fileID: 0}
   writeTimer: {fileID: 0}

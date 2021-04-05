@@ -117,17 +117,17 @@ public class player : MonoBehaviour
             if (Physics.Raycast(player_body_transform.position, Vector3.down, 0.6f)) // isGrounded
             {
                 float fVerticalForce = Input.GetAxis("Vertical") * (bIsOnAccelerator ? m_fAcceleratorSpeed : speed);
-                Vector3 vMouvementVector = transform.rotation * new Vector3(0.0f, 0.0f, fVerticalForce);
+                Vector3 vMouvementVector = transform.rotation * new Vector3(0.0f, 0.0f, fVerticalForce) * Time.deltaTime;
 
                 player_body.AddForce(vMouvementVector);
                 player_body.MoveRotation(camera.rotation);
 
             }
-            if (showCountdown.activeSelf)
-                showCountdown.SetActive(false);
-        }
+        if (showCountdown.activeSelf)
+            showCountdown.SetActive(false);
+    }
 
-        time += Time.deltaTime;
+    time += Time.deltaTime;
 
         if (time >= interpolationPeriod)
         {
